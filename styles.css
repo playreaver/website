@@ -7,12 +7,12 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f0f0f0; /* Светлый серый фон */
-    color: #333; /* Темный текст */
+    background-color: #1a1a1a; /* Очень тёмный фон */
+    color: #e0e0e0; /* Светло-серый текст */
 }
 
 header {
-    background: #444; /* Темный серый фон */
+    background: #333; /* Тёмно-серый фон */
     color: #ffffff; /* Белый текст */
     padding: 20px 0;
     text-align: center;
@@ -35,7 +35,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ccc; /* Светло-серый при наведении */
+    color: #b3b3b3; /* Светло-серый при наведении */
 }
 
 main {
@@ -43,22 +43,22 @@ main {
 }
 
 section {
-    background: #ffffff; /* Белый фон для секций */
+    background: #2a2a2a; /* Тёмный фон для секций */
     margin: 20px 0;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 h2 {
     margin-bottom: 10px;
-    color: #444; /* Темно-серый заголовок */
+    color: #e0e0e0; /* Светло-серый заголовок */
 }
 
 footer {
     text-align: center;
     padding: 10px 0;
-    background: #444; /* Темный серый фон */
+    background: #333; /* Тёмно-серый фон */
     color: #ffffff; /* Белый текст */
     position: relative;
     bottom: 0;
