@@ -1,74 +1,65 @@
-/* Reset CSS */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f2f2f2;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    background: #35424a;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
 }
 
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
-
-header h1 {
-    font-size: 1.8rem;
-    margin: 0;
-    font-family: 'Roboto', sans-serif; /* Пример добавления шрифта */
-}
-
-header nav ul {
-    list-style-type: none;
-    margin: 0;
+nav ul {
+    list-style: none;
     padding: 0;
-    text-align: right;
 }
 
-header nav ul li {
-    display: inline-block;
-    margin-left: 20px;
+nav ul li {
+    display: inline;
+    margin: 0 15px;
 }
 
-header nav ul li a {
-    color: #fff;
+nav ul li a {
+    color: #ffffff;
     text-decoration: none;
-    font-size: 1.2rem;
-    padding: 10px 20px; /* Увеличение размера кнопок */
-    border-radius: 5px; /* Закругление углов кнопок */
-    transition: background-color 0.3s, color 0.3s; /* Плавные изменения цвета и фона */
+    transition: color 0.3s;
 }
 
-header nav ul li a:hover {
-    background-color: #555; /* Изменение фона при наведении */
-    color: #fff; /* Изменение цвета текста при наведении */
+nav ul li a:hover {
+    color: #f4f4f4;
 }
 
-/* Пример стилей для остального контента */
+main {
+    padding: 20px;
+}
+
+section {
+    background: #ffffff;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #35424a;
+    color: #ffffff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
