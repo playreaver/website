@@ -55,6 +55,24 @@ h2 {
     color: #e0e0e0; /* Светло-серый заголовок */
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Создание сетки */
+    gap: 20px; /* Отступы между блоками */
+}
+
+.grid-item {
+    background: #444; /* Фон для блоков */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.grid-item:hover {
+    background: #555; /* Цвет фона при наведении на блоки */
+}
+
 footer {
     text-align: center;
     padding: 10px 0;
