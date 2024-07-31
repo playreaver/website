@@ -7,13 +7,13 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #f0f0f0; /* Светлый серый фон */
+    color: #333; /* Темный текст */
 }
 
 header {
-    background: #35424a;
-    color: #ffffff;
+    background: #444; /* Темный серый фон */
+    color: #ffffff; /* Белый текст */
     padding: 20px 0;
     text-align: center;
 }
@@ -29,13 +29,13 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #ffffff;
+    color: #ffffff; /* Белый текст */
     text-decoration: none;
     transition: color 0.3s;
 }
 
 nav ul li a:hover {
-    color: #f4f4f4;
+    color: #ccc; /* Светло-серый при наведении */
 }
 
 main {
@@ -43,7 +43,7 @@ main {
 }
 
 section {
-    background: #ffffff;
+    background: #ffffff; /* Белый фон для секций */
     margin: 20px 0;
     padding: 20px;
     border-radius: 8px;
@@ -52,13 +52,14 @@ section {
 
 h2 {
     margin-bottom: 10px;
+    color: #444; /* Темно-серый заголовок */
 }
 
 footer {
     text-align: center;
     padding: 10px 0;
-    background: #35424a;
-    color: #ffffff;
+    background: #444; /* Темный серый фон */
+    color: #ffffff; /* Белый текст */
     position: relative;
     bottom: 0;
     width: 100%;
