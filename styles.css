@@ -5,9 +5,7 @@ body {
 }
 
 .header-container {
-    padding: 0 20px;
-    margin: 0 auto; /* Центрируем */
-    max-width: 1200px; /* Ограничиваем ширину */
+    padding: 0 20px; /* Отступы по бокам */
 }
 
 header {
@@ -19,7 +17,6 @@ header {
     padding: 10px 20px;
     background-color: #333;
     border-radius: 15px;
-    margin-top: 20px;
     color: white;
     z-index: 1000;
 }
