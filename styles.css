@@ -5,17 +5,17 @@ body {
 }
 
 header {
-    position: fixed; /* Фиксирует хедер на экране */
-    top: 0; /* Прижимает его к верхней части экрана */
-    width: calc(100% - 40px); /* Полная ширина, учитывая отступы */
-    z-index: 1000; /* Разместить выше остального контента */
+    position: sticky;
+    top: 10px; /* Отступ сверху прилипшего хедера */
+    width: calc(100% - 40px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* Внутренние отступы */
-    background-color: #333; /* Цвет фона */
-    border-radius: 15px; /* Закругленные углы */
-    margin: 20px; /* Внешние отступы */
+    padding: 10px 20px;
+    background-color: #333;
+    border-radius: 15px;
+    margin: 20px;
+    z-index: 1000;
 }
 
 .logo-container {
