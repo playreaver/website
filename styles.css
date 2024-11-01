@@ -5,7 +5,11 @@ body {
 }
 
 header {
-    display: fixed;
+    position: fixed; /* Фиксирует хедер на экране */
+    top: 0; /* Прижимает его к верхней части экрана */
+    width: calc(100% - 40px); /* Полная ширина, учитывая отступы */
+    z-index: 1000; /* Разместить выше остального контента */
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px; /* Внутренние отступы */
