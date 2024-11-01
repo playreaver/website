@@ -10,6 +10,8 @@ header {
     align-items: center;
     padding: 10px 20px;
     background-color: #333;
+    border-radius: 15px;
+    margin: 20px;
 }
 
 .logo-container {
