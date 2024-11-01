@@ -6,7 +6,8 @@ body {
 
 .header-container {
     padding: 0 20px;
-    box-sizing: border-box;
+    margin: 0 auto; /* Центрируем */
+    max-width: 1200px; /* Ограничиваем ширину */
 }
 
 header {
@@ -18,11 +19,9 @@ header {
     padding: 10px 20px;
     background-color: #333;
     border-radius: 15px;
-    max-width: 1000px;
-    margin: auto;
+    margin-top: 20px;
     color: white;
     z-index: 1000;
-    box-sizing: border-box;
 }
 
 .logo-container {
