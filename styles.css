@@ -9,12 +9,18 @@ body {
 }
 
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background-color: #333;
     border-radius: 15px;
+    margin: 20px;
+    z-index: 1000; 
 }
 
 .logo-container {
@@ -23,9 +29,9 @@ header {
 }
 
 .logo {
-    width: 50px; /* Задай нужный размер логотипа */
+    width: 50px;
     height: auto;
-    margin-right: 10px; /* Отступ между логотипом и текстом */
+    margin-right: 10px;
 }
 
 h1 {
@@ -52,8 +58,9 @@ nav ul li a {
 nav ul li a:hover {
     text-decoration: underline;
 }
+
 main {
-    padding: 20px; /* Отступы внутри основного контента */
+    padding-top: 100px;
 }
 
 footer {
