@@ -1,20 +1,14 @@
-* {
-    box-sizing: border-box;
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
     margin: 0;
     padding: 0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #1a1a1a; /* Очень тёмный фон */
-    color: #e0e0e0; /* Светло-серый текст */
-}
-
 header {
-    background: #333; /* Тёмно-серый фон */
-    color: #ffffff; /* Белый текст */
-    padding: 20px 0;
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
     text-align: center;
 }
 
@@ -29,13 +23,12 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #ffffff; /* Белый текст */
+    color: #fff;
     text-decoration: none;
-    transition: color 0.3s;
 }
 
 nav ul li a:hover {
-    color: #b3b3b3; /* Светло-серый при наведении */
+    text-decoration: underline;
 }
 
 main {
@@ -43,41 +36,27 @@ main {
 }
 
 section {
-    background: #2a2a2a; /* Тёмный фон для секций */
-    margin: 20px 0;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-h2 {
-    margin-bottom: 10px;
-    color: #e0e0e0; /* Светло-серый заголовок */
+    margin-bottom: 20px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Создание сетки */
-    gap: 20px; /* Отступы между блоками */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
 }
 
 .grid-item {
-    background: #444; /* Фон для блоков */
-    border-radius: 8px;
-    padding: 20px;
+    background: #f4f4f4;
+    padding: 15px;
     text-align: center;
-    transition: background 0.3s;
-}
-
-.grid-item:hover {
-    background: #555; /* Цвет фона при наведении на блоки */
+    border: 1px solid #ccc;
 }
 
 footer {
+    background: #333;
+    color: #fff;
     text-align: center;
     padding: 10px 0;
-    background: #333; /* Тёмно-серый фон */
-    color: #ffffff; /* Белый текст */
     position: relative;
     bottom: 0;
     width: 100%;
