@@ -1,50 +1,31 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
+    display: flex; /* Используйте flexbox для размещения элементов в заголовке */
+    align-items: center; /* Центрирование элементов по вертикали */
+    justify-content: space-between; /* Разделение логотипа и навигации */
+    padding: 20px; /* Отступы для заголовка */
+    background-color: #333; /* Цвет фона заголовка */
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: bold;
+    height: 50px; /* Установите высоту логотипа */
 }
 
 nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+    list-style-type: none; /* Уберите маркеры у списка */
+    margin: 0; /* Удалите отступы */
+    padding: 0; /* Удалите внутренние отступы */
+    display: flex; /* Используйте flexbox для размещения элементов списка в строку */
 }
 
-nav ul li {
-    margin-left: 20px;
+nav li {
+    margin: 0 15px; /* Отступы между элементами списка */
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
+nav a {
+    color: white; /* Цвет ссылок */
+    text-decoration: none; /* Уберите подчеркивание */
 }
 
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-main {
-    padding: 20px;
-}
-
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #333;
-    color: white;
+nav a:hover {
+    text-decoration: underline; /* Подчеркивание при наведении */
 }
