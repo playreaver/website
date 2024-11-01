@@ -6,7 +6,7 @@ body {
 
 header {
     position: sticky;
-    top: 10px; /* Отступ сверху прилипшего хедера */
+    top: 15px;
     width: calc(100% - 40px);
     display: flex;
     justify-content: space-between;
