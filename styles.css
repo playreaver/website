@@ -1,29 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 header {
-    display: flex; /* Используйте flexbox для размещения элементов в заголовке */
-    align-items: center; /* Центрирование элементов по вертикали */
-    justify-content: space-between; /* Разделение логотипа и навигации */
-    padding: 20px; /* Отступы для заголовка */
-    background-color: #333; /* Цвет фона заголовка */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
 }
 
 .logo {
-    height: 50px; /* Установите высоту логотипа */
+    height: 50px; /* Измените высоту логотипа по вашему усмотрению */
 }
 
 nav ul {
-    list-style-type: none; /* Уберите маркеры у списка */
-    margin: 0; /* Удалите отступы */
-    padding: 0; /* Удалите внутренние отступы */
-    display: flex; /* Используйте flexbox для размещения элементов списка в строку */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
-nav li {
-    margin: 0 15px; /* Отступы между элементами списка */
+nav ul li {
+    margin-left: 20px;
 }
 
-nav a {
-    color: white; /* Цвет ссылок */
-    text-decoration: none; /* Уберите подчеркивание */
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
 }
 
 nav a:hover {
