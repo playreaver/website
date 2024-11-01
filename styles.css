@@ -8,10 +8,10 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    border-radius: 15px;
-    margin: 20px;
+    padding: 10px 20px; /* Внутренние отступы */
+    background-color: #333; /* Цвет фона */
+    border-radius: 15px; /* Закругленные углы */
+    margin: 20px; /* Внешние отступы */
 }
 
 .logo-container {
@@ -20,41 +20,37 @@ header {
 }
 
 .logo {
-    width: 50px;
-    height: 50px;
+    width: 50px; /* Ширина логотипа */
+    height: auto; /* Высота логотипа, будет автоматически подстраиваться */
 }
 
 nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+    list-style-type: none; /* Убираем маркеры списка */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 0; /* Убираем внутренние отступы */
+    display: flex; /* Делаем список горизонтальным */
 }
 
 nav ul li {
-    margin-left: 20px;
+    margin-left: 20px; /* Отступ между элементами списка */
 }
 
 nav ul li a {
-    color: white;
-    text-decoration: none;
+    color: white; /* Цвет ссылок */
+    text-decoration: none; /* Убираем подчеркивание */
 }
 
 nav ul li a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Подчеркивание при наведении */
 }
 
 main {
-    padding: 20px;
+    padding: 20px; /* Отступы внутри основного контента */
 }
 
 footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-}
-
-nav a:hover {
-    text-decoration: underline;
+    text-align: center; /* Выравнивание текста по центру */
+    padding: 10px; /* Отступы внутри подвала */
+    background-color: #333; /* Цвет фона подвала */
+    color: white; /* Цвет текста подвала */
 }
