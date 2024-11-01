@@ -13,8 +13,8 @@ body {
 .big-logo {
     display: block;
     margin: 20px auto;
-    max-width: 400px; 
-    width: 100%; 
+    max-width: 600px; 
+    width: 200%; 
     height: auto; /
 }
 
