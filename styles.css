@@ -18,7 +18,8 @@ header {
 }
 
 .logo {
-    height: 50px; /* Измените высоту логотипа по вашему усмотрению */
+    width: 40px;
+    height: auto;
 }
 
 nav ul {
