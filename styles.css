@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Poppins:wght@500;600;700&display=swap');
 body {
-    font-family: Arial, sans-serif;
+    font-family: Poppins, sans-serif;
+    font-weight: 500;
     margin: 0;
     padding: 0;
     background-color: #1a1a1a;
