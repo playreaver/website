@@ -568,3 +568,7 @@ svg.svg-inline--fa:not(:host),svg.svg-inline--fa:not(:root) {
 .PasswordProtected_card__LZU3g {
     box-shadow: 0 0 60px rgba(43,53,83,.15)
 }
+
+.dorik-image-zjvrx0jk-wrapper, .dorik-text-k0ek8ul4 {
+    display: none; /* Спрятать рекламу */
+}
