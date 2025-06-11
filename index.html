@@ -571,27 +571,26 @@
         </div>
     </footer>
 
-    <script>
-
-        const gameImages = [
-            "https://github.com/playreaver/website/blob/main/game1.png",
-            "https://raw.githubusercontent.com/username/repo/main/images/game2.jpg",
-            "https://raw.githubusercontent.com/username/repo/main/images/game3.jpg"
-        ];
-        
-        const partnerLogos = [
-            "https://raw.githubusercontent.com/username/repo/main/images/partner1.png",
-            "https://raw.githubusercontent.com/username/repo/main/images/partner2.png",
-            "https://raw.githubusercontent.com/username/repo/main/images/partner3.png"
-        ];
-        
-        document.getElementById('game1').style.backgroundImage = `url('${gameImages[0]}')`;
-        document.getElementById('game2').style.backgroundImage = `url('${gameImages[1]}')`;
-        document.getElementById('game3').style.backgroundImage = `url('${gameImages[2]}')`;
-        
-        document.getElementById('partner1').style.backgroundImage = `url('${partnerLogos[0]}')`;
-        document.getElementById('partner2').style.backgroundImage = `url('${partnerLogos[1]}')`;
-        document.getElementById('partner3').style.backgroundImage = `url('${partnerLogos[2]}')`;
-    </script>
+<script>
+    const gameImages = [
+        "images/game1.png",
+        "images/game2.png",
+        "images/game3.png"
+    ];
+    
+    const partnerLogos = [
+        "images/partner1.png",
+        "images/partner2.png",
+        "images/partner3.png"
+    ];
+    
+    document.getElementById('game1').style.backgroundImage = `url('${gameImages[0]}')`;
+    document.getElementById('game2').style.backgroundImage = `url('${gameImages[1]}')`;
+    document.getElementById('game3').style.backgroundImage = `url('${gameImages[2]}')`;
+    
+    document.getElementById('partner1').style.backgroundImage = `url('${partnerLogos[0]}')`;
+    document.getElementById('partner2').style.backgroundImage = `url('${partnerLogos[1]}')`;
+    document.getElementById('partner3').style.backgroundImage = `url('${partnerLogos[2]}')`;
+</script>
 </body>
 </html>
