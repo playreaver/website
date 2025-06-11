@@ -273,6 +273,80 @@
                 inset 0 2px 5px rgba(255, 255, 255, 0.9);
         }
 
+        /* Секция партнеров */
+        .partners-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .partner-card {
+            background: linear-gradient(145deg, #f0f0f0, #e6e6e6);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.08),
+                inset 0 2px 10px rgba(255, 255, 255, 0.8);
+            transition: all 0.4s ease;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.12),
+                inset 0 2px 10px rgba(255, 255, 255, 0.9);
+        }
+
+        .partner-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            background-color: #d0d0d0;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .partner-name {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .partner-link {
+            display: inline-block;
+            background: linear-gradient(145deg, #e0e0e0, #c5c5c5);
+            color: #333;
+            padding: 10px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .partner-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.15),
+                inset 0 2px 5px rgba(255, 255, 255, 0.9);
+        }
+
         /* Футер */
         .main-footer {
             background: linear-gradient(145deg, #e0e0e0, #f0f0f0);
@@ -396,14 +470,12 @@
         </nav>
     </header>
 
-    <!-- Основной контент -->
     <main class="main-content">
         <section class="hero">
             <h1>ВОЛШЕБСТВО В МИРЕ ИГР</h1>
             <p>Создаем игровые миры на Unity и Roblox, где оживают самые смелые фантазии</p>
         </section>
 
-        <!-- Секция Roblox игр -->
         <section class="games-section">
             <h2 class="section-title">Игры на платформе Roblox</h2>
             <div class="games-grid">
@@ -411,14 +483,8 @@
                     <div class="game-image" id="game1"></div>
                     <div class="game-content">
                         <h3 class="game-title">OVERTHROWN!</h3>
-                        <p class="game-description">Four teenagers — school friends and aspiring content creators — share a passion for livestreams, challenges, and spooky games. Among them is Eder, the creative spark always chasing the next big thrill.
-
-One day, he comes across a mysterious horror map — a place that "no one has ever finished." Rumor has it, the game is weird… and incredibly hard.
-“Probably fake… but sounds like epic content!” Eder says, and convinces his friends to try a “new format”: explore a haunted mansion in-game and record everything.
-
-At first, it looks like any other horror map...
-But soon, they start to realize something is wrong.</p>
-                        <a href="#" class="game-link">Играть сейчас</a>
+                        <p class="game-description">Four teenagers — school friends and aspiring content creators — share a passion for livestreams, challenges, and spooky games. Among them is Eder, the creative spark always chasing the next big thrill.</p>
+                        <a href="https://www.roblox.com/games/78903142632571/OVERTHROWN-DEMO-PREVIEW" class="game-link">Играть сейчас</a>
                     </div>
                 </div>
                 
@@ -426,8 +492,8 @@ But soon, they start to realize something is wrong.</p>
                     <div class="game-image" id="game2"></div>
                     <div class="game-content">
                         <h3 class="game-title">Time Records</h3>
-                        <p class="game-description">Time Records is a dynamic parkour game where speed and precision are everything! Dash through unique obstacle courses, beat your personal bests, and compete for the top spots on the global leaderboards. The game features regular events with special challenges, exclusive rewards, and limited-time maps to keep every run exciting. Whether you're a casual runner or a hardcore time chaser, there's always a new record waiting to be broken!</p>
-                        <a href="#" class="game-link">Играть сейчас</a>
+                        <p class="game-description">Time Records is a dynamic parkour game where speed and precision are everything! Dash through unique obstacle courses, beat your personal bests, and compete for the top spots on the global leaderboards.</p>
+                        <a href="https://www.roblox.com/games/18765010911/S6-Time-Records" class="game-link">Играть сейчас</a>
                     </div>
                 </div>
                 
@@ -435,9 +501,35 @@ But soon, they start to realize something is wrong.</p>
                     <div class="game-image" id="game3"></div>
                     <div class="game-content">
                         <h3 class="game-title">Digging Simulator</h3>
-                        <p class="game-description">Embark on an epic digging adventure! Explore vast underground worlds, uncover rare treasures, and upgrade your tools to dig deeper than ever before. Discover mysterious caves, ancient artifacts, and hidden secrets as you progress. Compete with friends, collect resources, and become the ultimate digging champion!</p>
-                        <a href="#" class="game-link">Играть сейчас</a>
+                        <p class="game-description">Embark on an epic digging adventure! Explore vast underground worlds, uncover rare treasures, and upgrade your tools to dig deeper than ever before. Discover mysterious caves, ancient artifacts, and hidden secrets.</p>
+                        <a href="https://www.roblox.com/games/137092840594859/Digging-Simulator-BETA" class="game-link">Играть сейчас</a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="partners-section">
+            <h2 class="section-title">ВМЕСТЕ С НАМИ</h2>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-logo" id="partner1"></div>
+                    <h3 class="partner-name">Pixel Magic</h3>
+                    <p>Создаем уникальные игровые ассеты и текстуры</p>
+                    <a href="#" class="partner-link">Перейти</a>
+                </div>
+                
+                <div class="partner-card">
+                    <div class="partner-logo" id="partner2"></div>
+                    <h3 class="partner-name">SoundWizards</h3>
+                    <p>Профессиональное озвучивание и создание саундтреков</p>
+                    <a href="#" class="partner-link">Перейти</a>
+                </div>
+                
+                <div class="partner-card">
+                    <div class="partner-logo" id="partner3"></div>
+                    <h3 class="partner-name">GameCloud</h3>
+                    <p>Хостинг и облачные решения для игровых студий</p>
+                    <a href="#" class="partner-link">Перейти</a>
                 </div>
             </div>
         </section>
@@ -462,7 +554,7 @@ But soon, they start to realize something is wrong.</p>
                 <ul class="footer-links">
                     <li><a href="#"><i class="fas fa-gamepad"></i> Игры на Roblox</a></li>
                     <li><a href="#"><i class="fab fa-unity"></i> Проекты на Unity</a></li>
-                    <li><a href="#"><i class="fas fa-cube"></i> 3D Модели</a></li>
+                    <li><a href="https://github.com/username/repo/tree/main/3d_models"><i class="fas fa-cube"></i> 3D Модели</a></li>
                     <li><a href="#"><i class="fas fa-book"></i> Обучающие материалы</a></li>
                 </ul>
             </div>
@@ -470,9 +562,7 @@ But soon, they start to realize something is wrong.</p>
             <div class="footer-column">
                 <h3 class="footer-title">Контакты</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-envelope"></i> contact@wws.com</a></li>
-                    <li><a href="#"><i class="fas fa-phone"></i> +7 (999) 123-45-67</a></li>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Москва, ул. Волшебная, 15</a></li>
+                    <li><a href="mailto:contact@wws.com"><i class="fas fa-envelope"></i> contact@wws.com</a></li>
                     <li><a href="#"><i class="fas fa-comments"></i> Техническая поддержка</a></li>
                 </ul>
             </div>
@@ -484,17 +574,26 @@ But soon, they start to realize something is wrong.</p>
     </footer>
 
     <script>
-        // Замените эти URL на пути к вашим изображениям из GitHub
+
         const gameImages = [
-            "https://via.placeholder.com/600x400?text=Game+Image+1",
-            "https://via.placeholder.com/600x400?text=Game+Image+2",
-            "https://via.placeholder.com/600x400?text=Game+Image+3"
+            "https://raw.githubusercontent.com/username/repo/main/images/game1.jpg",
+            "https://raw.githubusercontent.com/username/repo/main/images/game2.jpg",
+            "https://raw.githubusercontent.com/username/repo/main/images/game3.jpg"
         ];
         
-        // Установка изображений для игр
+        const partnerLogos = [
+            "https://raw.githubusercontent.com/username/repo/main/images/partner1.png",
+            "https://raw.githubusercontent.com/username/repo/main/images/partner2.png",
+            "https://raw.githubusercontent.com/username/repo/main/images/partner3.png"
+        ];
+        
         document.getElementById('game1').style.backgroundImage = `url('${gameImages[0]}')`;
         document.getElementById('game2').style.backgroundImage = `url('${gameImages[1]}')`;
         document.getElementById('game3').style.backgroundImage = `url('${gameImages[2]}')`;
+        
+        document.getElementById('partner1').style.backgroundImage = `url('${partnerLogos[0]}')`;
+        document.getElementById('partner2').style.backgroundImage = `url('${partnerLogos[1]}')`;
+        document.getElementById('partner3').style.backgroundImage = `url('${partnerLogos[2]}')`;
     </script>
 </body>
 </html>
