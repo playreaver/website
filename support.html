@@ -986,31 +986,48 @@
     
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-
+    
         formStatus.style.display = 'none';
-
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value;
-        const category = document.querySelector('input[name="category"]:checked').value;
-
-        if (!name || !email || !subject || !message) {
+    
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const category = document.querySelector('input[name="category"]:checked')?.value;
+    
+        if (!name || !email || !subject || !message || !category) {
             showFormStatus('Пожалуйста, заполните все обязательные поля', 'error');
             return;
         }
-        
-        // Здесь будет код для отправки на сервер
-        // В реальном проекте здесь будет AJAX запрос к Formspree или другому сервису
-        
-        // Эмуляция отправки
-        setTimeout(() => {
-
-            contactForm.reset();
-            showFormStatus('Ваше сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
-        }, 1500);
-    });
     
+        fetch("https://formspree.io/f/meokgpvb", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                subject: subject,
+                message: message,
+                category: category
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                contactForm.reset();
+                showFormStatus('Ваше сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Ошибка при отправке формы.');
+                });
+            }
+        })
+        .catch(error => {
+            showFormStatus(`Ошибка: ${error.message}`, 'error');
+        });
+    });
     function showFormStatus(message, type) {
         formStatus.textContent = message;
         formStatus.className = `form-status ${type}`;
