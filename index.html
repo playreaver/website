@@ -682,6 +682,165 @@
                 display: flex;
             }
         }
+
+        .stats-section {
+            max-width: 100%;
+            margin: 60px auto;
+            padding: 0 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(145deg, #f0f0f0, #e6e6e6);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.08),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.4s ease;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #d0d0d0, #c5c5c5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: transform 0.5s ease;
+        }
+        
+        .stat-card:hover .stat-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        .stat-icon i {
+            font-size: 36px;
+            color: #555;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #4a4a4a, #2c2c2c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-name {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .stat-text {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .stat-link {
+            display: inline-block;
+            background: linear-gradient(145deg, #e0e0e0, #c5c5c5);
+            color: #333;
+            padding: 8px 20px;
+            border-radius: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .stat-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (min-width: 481px) and (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-card:last-child {
+                grid-column: span 2;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .stats-section {
+                max-width: 1200px;
+                margin: 100px auto;
+                padding: 0 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+            }
+            
+            .stat-card {
+                padding: 30px;
+            }
+            
+            .stat-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .stat-icon i {
+                font-size: 42px;
+            }
+            
+            .stat-number {
+                font-size: 3rem;
+            }
+            
+            .stat-name {
+                font-size: 2rem;
+            }
+            
+            .stat-link {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+            
+            @media (min-width: 769px) {
+                .stats-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+                
+                .stat-card:last-child {
+                    grid-column: unset;
+                }
+            }
+        }
     </style>
 </head>
 <body>
@@ -766,6 +925,38 @@
                 </div>
             </div>
         </section>
+
+        <section class="stats-section">
+            <h2 class="section-title fade-in">НАША СТАТИСТИКА</h2>
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="stat-number">1500+</h3>
+                    <p class="stat-text">ежедневных визитов в режимах Roblox</p>
+                </div>
+                
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3 class="stat-name">Telegram</h3>
+                    <p class="stat-text">Присоединяйтесь к нашему сообществу</p>
+                    <a href="https://t.me/your_channel" class="stat-link">Подписаться</a>
+                </div>
+                
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fab fa-roblox"></i>
+                    </div>
+                    <h3 class="stat-name">Roblox Group</h3>
+                    <p class="stat-text">Официальная группа в Roblox</p>
+                    <a href="https://www.roblox.com/groups/your_group" class="stat-link">Присоединиться</a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="main-footer">
