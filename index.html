@@ -18,6 +18,18 @@
             min-height: 100vh;
             padding: 10px;
             color: #333;
+            overflow-x: hidden;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .header {
@@ -44,6 +56,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .logo-icon {
@@ -57,11 +74,17 @@
             box-shadow: 
                 0 3px 10px rgba(0, 0, 0, 0.1),
                 inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .logo-icon:hover {
+            transform: rotate(15deg);
         }
 
         .logo-icon i {
             font-size: 18px;
             color: #555;
+            transition: transform 0.3s ease;
         }
 
         .logo-text {
@@ -82,6 +105,11 @@
             font-size: 24px;
             color: #555;
             cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.1);
         }
 
         .nav-links {
@@ -98,6 +126,12 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             position: relative;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(145deg, #d0d0d0, #c5c5c5);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .main-content {
@@ -150,6 +184,18 @@
             border: none;
             cursor: pointer;
             display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
         }
 
         .games-section {
@@ -183,6 +229,12 @@
                 0 5px 15px rgba(0, 0, 0, 0.08),
                 inset 0 2px 5px rgba(255, 255, 255, 0.8);
             transition: all 0.4s ease;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+        }
+
+        .game-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .game-image {
@@ -191,6 +243,11 @@
             background-color: #d0d0d0;
             background-size: cover;
             background-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-image {
+            transform: scale(1.05);
         }
 
         .game-content {
@@ -222,6 +279,16 @@
             box-shadow: 
                 0 3px 10px rgba(0, 0, 0, 0.1),
                 inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .game-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-link:active {
+            transform: translateY(1px);
         }
 
         .partners-section {
@@ -249,6 +316,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+        }
+
+        .partner-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .partner-logo {
@@ -260,6 +333,11 @@
             background-position: center;
             margin-bottom: 20px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .partner-card:hover .partner-logo {
+            transform: rotate(5deg) scale(1.1);
         }
 
         .partner-name {
@@ -281,6 +359,12 @@
                 0 3px 10px rgba(0, 0, 0, 0.1),
                 inset 0 2px 5px rgba(255, 255, 255, 0.8);
             margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .partner-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
 
         .main-footer {
@@ -330,6 +414,11 @@
             font-size: 0.95rem;
         }
 
+        .footer-links a:hover {
+            color: #333;
+            transform: translateX(5px);
+        }
+
         .social-links {
             display: flex;
             gap: 12px;
@@ -349,6 +438,13 @@
             box-shadow: 
                 0 3px 10px rgba(0, 0, 0, 0.1),
                 inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #333;
         }
 
         .copyright {
@@ -369,6 +465,26 @@
         .magic-icon {
             animation: magicPulse 3s infinite;
             color: #5d5d5d;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .hero {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(90, 90, 90, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(90, 90, 90, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(90, 90, 90, 0.5); }
+        }
+
+        .logo-icon {
+            animation: glow 4s infinite;
         }
 
         @media (min-width: 481px) and (max-width: 768px) {
@@ -544,6 +660,18 @@
                 padding: 15px 20px;
                 flex-direction: column;
                 box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                animation: slideDown 0.4s ease forwards;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
             
             .nav-toggle {
@@ -576,16 +704,16 @@
     </header>
 
     <main class="main-content">
-        <section class="hero">
+        <section class="hero fade-in">
             <h1>НИЧЕГО ОБЫЧНОГО. И ЭТО КРУТО</h1>
             <p>Создаем игровые миры на Unity и Roblox</p>
             <a href="#" class="cta-button">Наши проекты</a>
         </section>
 
         <section class="games-section">
-            <h2 class="section-title">Игры на платформе Roblox</h2>
+            <h2 class="section-title fade-in">Игры на платформе Roblox</h2>
             <div class="games-grid">
-                <div class="game-card">
+                <div class="game-card fade-in">
                     <div class="game-image" style="background-image: url('images/game1.png')"></div>
                     <div class="game-content">
                         <h3 class="game-title">OVERTHROWN!</h3>
@@ -594,7 +722,7 @@
                     </div>
                 </div>
                 
-                <div class="game-card">
+                <div class="game-card fade-in">
                     <div class="game-image" style="background-image: url('images/game2.png')"></div>
                     <div class="game-content">
                         <h3 class="game-title">Time Records</h3>
@@ -603,7 +731,7 @@
                     </div>
                 </div>
                 
-                <div class="game-card">
+                <div class="game-card fade-in">
                     <div class="game-image" style="background-image: url('images/game3.png')"></div>
                     <div class="game-content">
                         <h3 class="game-title">Digging Simulator</h3>
@@ -615,23 +743,23 @@
         </section>
 
         <section class="partners-section">
-            <h2 class="section-title">ВМЕСТЕ С НАМИ</h2>
+            <h2 class="section-title fade-in">ВМЕСТЕ С НАМИ</h2>
             <div class="partners-grid">
-                <div class="partner-card">
+                <div class="partner-card fade-in">
                     <div class="partner-logo" style="background-image: url('images/partner1.png')"></div>
                     <h3 class="partner-name">JustStudio.</h3>
                     <p>Описание</p>
                     <a href="#" class="partner-link">Перейти</a>
                 </div>
                 
-                <div class="partner-card">
+                <div class="partner-card fade-in">
                     <div class="partner-logo" style="background-image: url('images/partner2.png')"></div>
                     <h3 class="partner-name">GreedBox</h3>
                     <p>Описание</p>
                     <a href="#" class="partner-link">Перейти</a>
                 </div>
                 
-                <div class="partner-card">
+                <div class="partner-card fade-in">
                     <div class="partner-logo" style="background-image: url('images/partner3.png')"></div>
                     <h3 class="partner-name">GSA</h3>
                     <p>Описание</p>
@@ -643,7 +771,7 @@
 
     <footer class="main-footer">
         <div class="footer-content">
-            <div class="footer-column">
+            <div class="footer-column fade-in">
                 <h3 class="footer-title">Wandering Wizardry Studios</h3>
                 <p>Создаем волшебные миры в Unity и Roblox, где каждый может стать героем своей истории.</p>
                 <div class="social-links">
@@ -653,7 +781,7 @@
                 </div>
             </div>
             
-            <div class="footer-column">
+            <div class="footer-column fade-in">
                 <h3 class="footer-title">Наши проекты</h3>
                 <ul class="footer-links">
                     <li><a href="#"><i class="fas fa-gamepad"></i> Игры на Roblox</a></li>
@@ -662,7 +790,7 @@
                 </ul>
             </div>
             
-            <div class="footer-column">
+            <div class="footer-column fade-in">
                 <h3 class="footer-title">Контакты</h3>
                 <ul class="footer-links">
                     <li><a href="mailto:reaver.entertainment@hotmail.com"><i class="fas fa-envelope"></i> reaver.entertainment@hotmail.com</a></li>
@@ -671,7 +799,7 @@
             </div>
         </div>
         
-        <div class="copyright">
+        <div class="copyright fade-in">
             <p>WWS © 2025. Некоторые права защищены.</p>
         </div>
     </footer>
@@ -689,6 +817,36 @@
             navLinks.classList.contains('nav-active')) {
             navLinks.classList.remove('nav-active');
         }
+    });
+
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    
+    fadeElements.forEach(element => {
+        appearOnScroll.observe(element);
+    });
+
+    document.querySelectorAll('a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
     });
 </script>
 </body>
