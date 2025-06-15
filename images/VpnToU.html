@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Условия использования ReaverVPN | Reaver.Entertainment</title>
+    <meta name="description" content="Условия использования VPN-сервиса ReaverVPN">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="keywords" content="ReaverVPN, VPN условия, политика конфиденциальности">
+    <meta name="author" content="WWS.RE © 2022-2025. Некоторые права защищены.">
+    
+    <meta property="og:title" content="Условия использования ReaverVPN">
+    <meta property="og:description" content="Официальные условия использования VPN-сервиса ReaverVPN">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://playreaver.is-a.dev/reaver-vpn-terms.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://i.postimg.cc/sfHcdQyw/photo-2025-06-12-20-05-45.jpg">
+    <meta property="og:image" content="https://i.postimg.cc/sfHcdQyw/photo-2025-06-12-20-05-45.jpg">
+    
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        .header {
+            background: linear-gradient(145deg, #e0e0e0, #f0f0f0);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.15),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            background: linear-gradient(145deg, #d0d0d0, #f0f0f0);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .logo-icon:hover {
+            transform: rotate(15deg);
+        }
+
+        .logo-icon i {
+            font-size: 18px;
+            color: #555;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #4a4a4a, #2c2c2c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #555;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(145deg, #d0d0d0, #c5c5c5);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            margin-top: 100px;
+            padding: 20px;
+        }
+
+        .terms-section {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .terms-container {
+            background: linear-gradient(145deg, #f0f0f0, #e6e6e6);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.08),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.4s ease;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+            margin-bottom: 40px;
+        }
+
+        .terms-container:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .terms-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #3a3a3a, #1a1a1a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .terms-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .terms-header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #4a4a4a, #2c2c2c);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+
+        .terms-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .terms-group {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .terms-group h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .terms-group h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #4a4a4a, #2c2c2c);
+            margin-top: 10px;
+            border-radius: 2px;
+        }
+
+        .terms-group h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px;
+            color: #444;
+        }
+
+        .terms-group p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .terms-group ul {
+            margin: 15px 0 20px 25px;
+        }
+
+        .terms-group ul li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .highlight-box {
+            background: linear-gradient(145deg, #e0e0e0, #d5d5d5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.05),
+                0 3px 8px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid #4a4a4a;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            font-style: italic;
+        }
+
+        .terms-date {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .back-to-home {
+            display: inline-block;
+            background: linear-gradient(145deg, #e0e0e0, #c5c5c5);
+            color: #333;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-home:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-to-home i {
+            margin-right: 8px;
+        }
+
+        .main-footer {
+            background: linear-gradient(145deg, #e0e0e0, #f0f0f0);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-top: 50px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.08),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .footer-column {
+            margin-bottom: 20px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #555;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: #333;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(145deg, #d0d0d0, #f0f0f0);
+            border-radius: 50%;
+            color: #555;
+            text-decoration: none;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 769px) {
+            body {
+                padding: 20px;
+            }
+            
+            .header {
+                top: 20px;
+                left: 20px;
+                right: 20px;
+                padding: 20px 40px;
+                border-radius: 25px;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .logo-icon i {
+                font-size: 24px;
+            }
+            
+            .logo-text {
+                font-size: 24px;
+            }
+            
+            .nav-links a {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+            
+            .main-content {
+                margin-top: 120px;
+                padding: 40px;
+            }
+            
+            .terms-header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .terms-header p {
+                font-size: 1.2rem;
+            }
+            
+            .terms-container {
+                padding: 40px;
+            }
+            
+            .terms-group {
+                padding: 30px;
+            }
+            
+            .terms-group h2 {
+                font-size: 2.2rem;
+            }
+            
+            .terms-group h3 {
+                font-size: 1.6rem;
+            }
+            
+            .main-footer {
+                border-radius: 25px;
+                padding: 50px 40px;
+                margin-top: 80px;
+            }
+            
+            .footer-content {
+                display: flex;
+                justify-content: space-between;
+                max-width: 1200px;
+                flex-wrap: wrap;
+            }
+            
+            .footer-column {
+                flex: 1;
+                min-width: 250px;
+            }
+            
+            .footer-title {
+                font-size: 1.5rem;
+            }
+            
+            .social-links a {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(145deg, #e0e0e0, #f0f0f0);
+                border-radius: 0 0 20px 20px;
+                padding: 15px 20px;
+                flex-direction: column;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                animation: slideDown 0.4s ease forwards;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+            
+            .nav-active {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="mainHeader">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-hat-wizard"></i>
+            </div>
+            <div class="logo-text">REAVER.ENTERTAINMENT</div>
+        </div>
+        <button class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="support.html">Написать нам</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="terms-section fade-in">
+            <div class="terms-container">
+                <div class="terms-header fade-in">
+                    <h1>УСЛОВИЯ ИСПОЛЬЗОВАНИЯ REAVERVPN</h1>
+                    <p>Ознакомьтесь с нашими условиями использования VPN-сервиса ReaverVPN</p>
+                </div>
+
+                <div class="terms-content">
+                    <div class="terms-group fade-in">
+                        <h2>1. Принятие условий</h2>
+                        <p>Используя сервис ReaverVPN ("Сервис"), вы соглашаетесь соблюдать настоящие Условия использования ("Условия"). Если вы не согласны с любыми положениями этих Условий, пожалуйста, не используйте наш Сервис.</p>
+                        
+                        <div class="highlight-box">
+                            <p>ReaverVPN предоставляет услуги частной виртуальной сети (VPN), которые позволяют пользователям шифровать интернет-трафик и скрывать свой IP-адрес для повышения конфиденциальности и безопасности в интернете.</p>
+                        </div>
+                        
+                        <h3>1.1 Право на использование</h3>
+                        <p>Вы должны быть не моложе 13 лет, чтобы использовать наш Сервис. Используя Сервис, вы подтверждаете, что достигли этого возраста.</p>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>2. Лицензия на использование</h2>
+                        <p>При условии соблюдения вами настоящих Условий, Reaver.Entertainment предоставляет вам ограниченную, неисключительную, непередаваемую лицензию на доступ и использование Сервиса для личных, некоммерческих целей.</p>
+                        
+                        <h3>2.1 Ограничения</h3>
+                        <p>Вы соглашаетесь не:</p>
+                        <ul>
+                            <li>Использовать Сервис для незаконной деятельности;</li>
+                            <li>Нарушать права интеллектуальной собственности третьих лиц;</li>
+                            <li>Распространять вредоносное ПО или участвовать в кибератаках;</li>
+                            <li>Предпринимать попытки обхода наших систем безопасности;</li>
+                            <li>Использовать Сервис для распространения спама или фишинга.</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>3. Политика конфиденциальности</h2>
+                        <p>Использование вами Сервиса также регулируется нашей Политикой конфиденциальности, которая объясняет, как мы собираем, используем и защищаем вашу информацию. Используя Сервис, вы соглашаетесь с обработкой вашей информации, как описано в Политике конфиденциальности.</p>
+                        
+                        <h3>3.1 Сбор данных</h3>
+                        <p>ReaverVPN придерживается политики отсутствия журналов. Мы не храним:</p>
+                        <ul>
+                            <li>Историю вашего интернет-трафика;</li>
+                            <li>Содержание ваших коммуникаций;</li>
+                            <li>Ваши DNS-запросы;</li>
+                            <li>Ваши реальные IP-адреса после завершения сессии.</li>
+                        </ul>
+                        
+                        <h3>3.2 Данные для работы сервиса</h3>
+                        <p>Мы можем собирать минимальные данные, необходимые для работы Сервиса:</p>
+                        <ul>
+                            <li>Анонимизированные данные об использовании для улучшения качества сервиса;</li>
+                            <li>Адрес электронной почты для создания учетной записи;</li>
+                            <li>Информация об устройстве и операционной системе для технической поддержки.</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>4. Оплата и подписка</h2>
+                        <p>ReaverVPN предлагает как бесплатные, так и платные подписки. Платные подписки предоставляют доступ к расширенным функциям и серверам.</p>
+                        
+                        <h3>4.1 Автопродление</h3>
+                        <p>Платные подписки автоматически продлеваются в конце каждого расчетного периода, пока вы не отмените подписку. Вы можете управлять своей подпиской и отменить ее в любое время.</p>
+                        
+                        <h3>4.2 Возврат средств</h3>
+                        <p>Мы предлагаем 30-дневную гарантию возврата средств для всех новых подписок. Если вы не удовлетворены Сервисом в течение первых 30 дней, вы можете запросить полный возврат средств.</p>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>5. Ответственность и отказ от гарантий</h2>
+                        <p>Сервис предоставляется "как есть" без каких-либо гарантий, явных или подразумеваемых. Reaver.Entertainment не гарантирует, что:</p>
+                        <ul>
+                            <li>Сервис будет соответствовать вашим требованиям;</li>
+                            <li>Сервис будет бесперебойным, своевременным, безопасным или безошибочным;</li>
+                            <li>Результаты, полученные с помощью Сервиса, будут точными или надежными.</li>
+                        </ul>
+                        
+                        <div class="highlight-box">
+                            <p>В максимальной степени, разрешенной применимым законодательством, Reaver.Entertainment не несет ответственности за любые косвенные, случайные, особые, штрафные или косвенные убытки, возникшие в результате использования вами Сервиса.</p>
+                        </div>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>6. Изменения условий</h2>
+                        <p>Мы оставляем за собой право изменять или обновлять настоящие Условия в любое время. Мы уведомим вас о существенных изменениях, разместив новую версию Условий на нашем веб-сайте.</p>
+                        
+                        <h3>6.1 Продолжение использования</h3>
+                        <p>Продолжение использования вами Сервиса после публикации изменений означает ваше согласие с обновленными Условиями.</p>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>7. Прекращение действия</h2>
+                        <p>Мы можем приостановить или прекратить ваш доступ к Сервису без предварительного уведомления и без ответственности перед вами, если вы нарушите какие-либо положения настоящих Условий.</p>
+                        
+                        <h3>7.1 Ваши действия при прекращении</h3>
+                        <p>При прекращении действия ваши права на использование Сервиса немедленно прекращаются, и вы должны прекратить любое использование Сервиса.</p>
+                    </div>
+
+                    <div class="terms-group fade-in">
+                        <h2>8. Применимое право</h2>
+                        <p>Настоящие Условия регулируются и толкуются в соответствии с законодательством Российской Федерации, без учета его коллизионных норм.</p>
+                        
+                        <h3>8.1 Разрешение споров</h3>
+                        <p>Любые споры, возникающие из настоящих Условий или в связи с ними, будут разрешаться в судах общей юрисдикции по месту нахождения Reaver.Entertainment.</p>
+                    </div>
+
+                    <div class="terms-date fade-in">
+                        <p>Дата вступления в силу: 1 июля 2025 года</p>
+                    </div>
+
+                    <div class="fade-in" style="text-align: center; margin-top: 40px;">
+                        <a href="index.html" class="back-to-home">
+                            <i class="fas fa-arrow-left"></i> Вернуться на главную
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-column fade-in">
+                <h3 class="footer-title">Wandering Wizardry Studios - Reaver.Entertainment</h3>
+                <p>Создаем волшебные миры в Unity и Roblox, где каждый может стать героем своей истории.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="https://discord.gg/Xg6G9MZcyF"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column fade-in">
+                <h3 class="footer-title">Наши проекты</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-gamepad"></i> Игры на Roblox</a></li>
+                    <li><a href="#"><i class="fab fa-unity"></i> Проекты на Unity</a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> ReaverVPN</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column fade-in">
+                <h3 class="footer-title">Юридическая информация</h3>
+                <ul class="footer-links">
+                    <li><a href="reaver-vpn-terms.html"><i class="fas fa-file-contract"></i> Условия использования VPN</a></li>
+                    <li><a href="privacy.html"><i class="fas fa-user-shield"></i> Политика конфиденциальности</a></li>
+                    <li><a href="support.html"><i class="fas fa-headset"></i> Техническая поддержка</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright fade-in">
+            <p>WWS.RE © 2022-2025. Некоторые права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !navToggle.contains(e.target) && 
+                navLinks.classList.contains('nav-active')) {
+                navLinks.classList.remove('nav-active');
+            }
+        });
+
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const appearOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        
+        fadeElements.forEach(element => {
+            appearOnScroll.observe(element);
+        });
+
+        document.querySelectorAll('a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
