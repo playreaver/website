@@ -910,6 +910,18 @@
             }
         }
 
+        /* Dark theme adjustments for project cards */
+        [data-theme="dark"] .project-img {
+            background: linear-gradient(135deg, #2a2a3a, #1e1e2e);
+        }
+        [data-theme="dark"] .project-img i {
+            color: var(--accent-teal);
+            text-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+        }
+        [data-theme="dark"] .project-card:hover .project-img i {
+            text-shadow: 0 0 25px rgba(76, 201, 240, 0.8);
+        }
+
         /* Адаптивность */
         @media (max-width: 1200px) {
             .projects-grid {
@@ -1001,8 +1013,30 @@
                 font-size: 1.9rem;
             }
             
+            .project-img {
+                height: 150px;
+            }
+            
             .project-img i {
-                font-size: 4rem;
+                font-size: 3.5rem;
+            }
+            
+            .project-title {
+                font-size: 1.5rem;
+            }
+            
+            .project-description {
+                font-size: 1rem;
+                min-height: auto;
+            }
+            
+            .project-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .projects-grid {
+                gap: 25px;
             }
             
             .contact-item {
@@ -1069,6 +1103,23 @@
             .project-link {
                 padding: 8px 20px;
                 font-size: 0.9rem;
+            }
+            
+            .project-card {
+                border-radius: 12px;
+            }
+            
+            .project-img {
+                height: 130px;
+            }
+            
+            .project-content {
+                padding: 15px;
+            }
+            
+            .project-title {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
             }
         }
     </style>
