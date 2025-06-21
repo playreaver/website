@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light theme variables */
             --light-bg: #f8f9fa;
             --card-bg: #ffffff;
             --accent-blue: #4361ee;
@@ -27,7 +26,6 @@
             --hero-gradient: linear-gradient(135deg, rgba(247, 245, 255, 0.8) 0%, rgba(236, 240, 255, 0.8) 100%);
         }
 
-        /* Dark theme variables */
         [data-theme="dark"] {
             --light-bg: #121212;
             --card-bg: #1e1e1e;
@@ -58,7 +56,6 @@
             min-height: 100vh;
         }
 
-        /* Кастомный скроллбар */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -89,7 +86,6 @@
             position: relative;
         }
 
-        /* Улучшенный хедер с анимированным блюром */
         header {
             position: fixed;
             top: 0;
@@ -182,7 +178,6 @@
             width: 100%;
         }
 
-        /* Переключатель темы */
         .theme-toggle {
             background: none;
             border: none;
@@ -208,7 +203,6 @@
             transition: var(--transition);
         }
 
-        /* Улучшенная герой-секция с параллаксом */
         .hero {
             display: flex;
             flex-direction: column;
@@ -309,7 +303,6 @@
             text-shadow: 0 5px 15px rgba(114, 9, 183, 0.3);
         }
 
-        /* Улучшенная кнопка с анимацией градиента */
         .btn {
             display: inline-block;
             padding: 18px 45px;
@@ -355,7 +348,6 @@
             animation: gradientShift 3s infinite alternate;
         }
 
-        /* Анимированные социальные иконки */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -523,7 +515,6 @@
             width: 100%;
         }
 
-        /* Улучшенные карточки проектов с 3D-эффектом */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -822,7 +813,6 @@
             z-index: 2;
         }
 
-        /* Анимации */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -870,7 +860,6 @@
             100% { opacity: 1; }
         }
 
-        /* Анимации для появления элементов при скролле */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(40px);
@@ -882,7 +871,6 @@
             transform: translateY(0);
         }
 
-        /* Частицы для фона */
         .particles {
             position: absolute;
             top: 0;
@@ -910,7 +898,6 @@
             }
         }
 
-        /* Dark theme adjustments for project cards */
         [data-theme="dark"] .project-img {
             background: linear-gradient(135deg, #2a2a3a, #1e1e2e);
         }
@@ -922,7 +909,6 @@
             text-shadow: 0 0 25px rgba(76, 201, 240, 0.8);
         }
 
-        /* Адаптивность */
         @media (max-width: 1200px) {
             .projects-grid {
                 grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -1125,12 +1111,11 @@
     </style>
 </head>
 <body>
-    <!-- Частицы фона -->
     <div class="particles" id="particles"></div>
     
     <header>
         <div class="header-container">
-            <a href="#" class="logo">REAVER.<span>ENT</span></a>
+            <a href="#" class="logo">XQOW<span>1X</span></a>
             <nav class="nav-links">
                 <a href="#about">About</a>
                 <a href="#projects">Projects</a>
@@ -1171,9 +1156,9 @@
             <h2 class="section-title">My Skills</h2>
             <div class="about-content animate-on-scroll">
                 <div class="about-text">
-                    <h3>Creative Developer & Network Specialist</h3>
-                    <p>I specialize in creating immersive digital experiences and secure network solutions across multiple platforms. As the founder of Reaver.Entertainment, I bridge the gap between creative vision and technical execution.</p>
-                    <p>My expertise spans from game development to network security, with a focus on creating interactive and engaging experiences for communities.</p>
+                    <h3>Creative Developer</h3>
+                    <p>I work on building interactive digital experiences and simple network tools across different platforms. As the creator of Reaver.Entertainment, I focus on turning ideas into working products — whether it's a game, a bot, or a service.</p>
+                    <p>My background includes indie game development, Discord bots, and VPN solutions, with a hands-on approach to both creative and technical parts of a project.</p>
                     
                     <div class="skills">
                         <span class="skill">Web Development</span>
@@ -1297,7 +1282,6 @@
     </footer>
     
     <script>
-        // Генерация частиц фона
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 30;
@@ -1305,8 +1289,7 @@
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                
-                // Случайные параметры
+
                 const size = Math.random() * 20 + 5;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
@@ -1327,30 +1310,25 @@
             }
         }
         
-        // Анимация печатающегося текста
         function typeText() {
             const title = "Hi, I'm xqow1x";
             const typingTitle = document.getElementById('typingTitle');
             const typingCursor = document.getElementById('typingCursor');
             let charIndex = 0;
             
-            // Сначала показываем курсор
             typingCursor.style.display = 'inline-block';
             
-            // Эффект печатания
             const typingInterval = setInterval(() => {
                 if (charIndex < title.length) {
                     typingTitle.textContent += title.charAt(charIndex);
                     charIndex++;
                 } else {
                     clearInterval(typingInterval);
-                    // После завершения печати, курсор мигает постоянно
                     typingCursor.style.animation = 'blink 0.8s infinite';
                 }
             }, 100);
         }
-        
-        // Обработка появления элементов при скролле
+
         const observerOptions = {
             threshold: 0.15
         };
@@ -1359,23 +1337,19 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
-                    // Для заголовков секций
+
                     if (entry.target.classList.contains('section-title')) {
                         entry.target.classList.add('visible');
                     }
                     
-                    // Для текста "About"
                     if (entry.target.classList.contains('about-text')) {
                         entry.target.classList.add('visible');
                     }
                     
-                    // Для контактной информации
                     if (entry.target.classList.contains('contact-info')) {
                         entry.target.classList.add('visible');
                     }
                     
-                    // Анимация для навыков
                     if (entry.target.querySelector('.skills')) {
                         const skills = entry.target.querySelectorAll('.skill');
                         skills.forEach((skill, index) => {
@@ -1392,7 +1366,6 @@
             observer.observe(element);
         });
 
-        // Плавная прокрутка для навигации
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1410,10 +1383,9 @@
             });
         });
 
-        // Эффект для карточек проектов
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
-            typeText(); // Запускаем анимацию печатания текста
+            typeText(); 
             
             const skills = document.querySelectorAll('.skill');
             skills.forEach((skill, index) => {
@@ -1442,7 +1414,6 @@
             });
         });
 
-        // Эффект для хедера при скролле
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             if (window.scrollY > 50) {
@@ -1452,7 +1423,6 @@
             }
         });
 
-        // Плавная анимация градиента для кнопки
         const btn = document.querySelector('.btn');
         btn.addEventListener('mouseenter', () => {
             btn.style.backgroundPosition = '100% 0';
@@ -1462,11 +1432,9 @@
             btn.style.backgroundPosition = '0 0';
         });
 
-        // Переключение темы
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
         
-        // Проверка сохраненной темы
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -1476,7 +1444,6 @@
             }
         }
         
-        // Проверка системных настроек
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
         if (!savedTheme && prefersDarkScheme.matches) {
             document.documentElement.setAttribute('data-theme', 'dark');
@@ -1484,7 +1451,6 @@
             themeIcon.classList.add('fa-sun');
         }
         
-        // Обработчик переключения
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             
