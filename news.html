@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Light theme variables */
             --light-bg: #f8f9fa;
             --card-bg: #ffffff;
             --accent-blue: #4361ee;
@@ -23,16 +24,31 @@
             --border-radius: 16px;
             --header-height: 80px;
             --glass-bg: rgba(255, 255, 255, 0.85);
+            --hero-gradient: linear-gradient(135deg, rgba(247, 245, 255, 0.8) 0%, rgba(236, 240, 255, 0.8) 100%);
+        }
+
+        /* Dark theme variables */
+        [data-theme="dark"] {
+            --light-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-dark: #f0f0f0;
+            --text-gray: #a0a0a0;
+            --text-light: #f8f9fa;
+            --shadow: 0 8px 30px rgba(0,0,0,0.3);
+            --shadow-hover: 0 15px 50px rgba(67, 97, 238, 0.15);
+            --glass-bg: rgba(30, 30, 30, 0.85);
+            --hero-gradient: linear-gradient(135deg, rgba(18, 18, 30, 0.9) 0%, rgba(30, 30, 50, 0.9) 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.5s ease, color 0.3s ease;
         }
 
         body {
-            background: linear-gradient(135deg, #f7f5ff, #ecefff, #f0f7ff);
+            background: var(--light-bg);
             background-attachment: fixed;
             color: var(--text-dark);
             font-family: 'Inter', sans-serif;
@@ -48,7 +64,7 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: rgba(236, 240, 255, 0.5);
+            background: rgba(236, 240, 255, 0.1);
         }
         
         ::-webkit-scrollbar-thumb {
@@ -93,7 +109,6 @@
             padding: 10px 0;
             box-shadow: 0 5px 30px rgba(67, 97, 238, 0.15);
             backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.92);
         }
 
         .header-container {
@@ -134,6 +149,7 @@
         .nav-links {
             display: flex;
             gap: 30px;
+            align-items: center;
         }
 
         .nav-links a {
@@ -166,6 +182,32 @@
             width: 100%;
         }
 
+        /* Переключатель темы */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(67, 97, 238, 0.1);
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle i {
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
         /* Улучшенная герой-секция с параллаксом */
         .hero {
             display: flex;
@@ -177,7 +219,7 @@
             position: relative;
             text-align: center;
             overflow: hidden;
-            background: linear-gradient(135deg, rgba(247, 245, 255, 0.8) 0%, rgba(236, 240, 255, 0.8) 100%);
+            background: var(--hero-gradient);
         }
 
         .hero::before {
@@ -311,7 +353,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: white;
+            background: var(--card-bg);
             color: var(--accent-blue);
             font-size: 1.5rem;
             text-decoration: none;
@@ -427,7 +469,7 @@
 
         .skill {
             padding: 12px 28px;
-            background: white;
+            background: var(--card-bg);
             border-radius: 50px;
             font-size: 1rem;
             color: var(--accent-blue);
@@ -675,7 +717,7 @@
             transition: var(--transition);
             padding: 20px 30px;
             border-radius: var(--border-radius);
-            background: white;
+            background: var(--card-bg);
             box-shadow: var(--shadow);
             text-align: left;
             position: relative;
@@ -743,7 +785,7 @@
             color: var(--text-gray);
             font-size: 1rem;
             margin-top: 100px;
-            background: white;
+            background: var(--card-bg);
             position: relative;
             overflow: hidden;
         }
@@ -945,6 +987,9 @@
                 <a href="#about">About</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
             </nav>
         </div>
     </header>
@@ -964,7 +1009,6 @@
             
             <div class="social-icons">
                 <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitch"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-steam"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
             </div>
@@ -976,21 +1020,22 @@
             <h2 class="section-title">My Skills</h2>
             <div class="about-content animate-on-scroll">
                 <div class="about-text">
-                    <h3>Creative Developer & Game Designer</h3>
-                    <p>I specialize in creating immersive digital experiences across multiple platforms. As the founder of Reaver.Entertainment, I bridge the gap between creative vision and technical execution.</p>
-                    <p>My expertise spans from web development to game design, with a focus on creating interactive and engaging experiences for communities.</p>
+                    <h3>Creative Developer & Network Specialist</h3>
+                    <p>I specialize in creating immersive digital experiences and secure network solutions across multiple platforms. As the founder of Reaver.Entertainment, I bridge the gap between creative vision and technical execution.</p>
+                    <p>My expertise spans from game development to network security, with a focus on creating interactive and engaging experiences for communities.</p>
                     
                     <div class="skills">
                         <span class="skill">Web Development</span>
                         <span class="skill">Discord Bots</span>
                         <span class="skill">Roblox Studio</span>
                         <span class="skill">Unity Engine</span>
-                        <span class="skill">CS:GO Mapping</span>
+                        <span class="skill">OpenVPN</span>
                         <span class="skill">HTML/CSS/JS</span>
                         <span class="skill">Lua Scripting</span>
                         <span class="skill">C# Programming</span>
                         <span class="skill">Game Design</span>
                         <span class="skill">UI/UX Design</span>
+                        <span class="skill">Network Security</span>
                     </div>
                 </div>
             </div>
@@ -1051,15 +1096,15 @@
                 
                 <div class="project-card">
                     <div class="project-img">
-                        <i class="fas fa-map"></i>
+                        <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">CS:GO De_Nexus</h3>
-                        <p class="project-description">Competitive CS:GO map featuring balanced gameplay, unique visual design, and optimized performance for competitive play.</p>
+                        <h3 class="project-title">Secure VPN Solution</h3>
+                        <p class="project-description">Custom OpenVPN-based solution with enhanced security protocols, user management, and seamless cross-platform integration.</p>
                         <div class="project-meta">
-                            <span class="project-tag">Source Engine</span>
-                            <span class="project-tag">Hammer Editor</span>
-                            <span class="project-tag">Level Design</span>
+                            <span class="project-tag">OpenVPN</span>
+                            <span class="project-tag">Network Security</span>
+                            <span class="project-tag">Linux</span>
                         </div>
                         <a href="#" class="project-link">View Project <i class="fas fa-arrow-right"></i></a>
                     </div>
@@ -1074,7 +1119,7 @@
             <div class="contact-container">
                 <div class="contact-info animate-on-scroll">
                     <h3>Let's Create Together</h3>
-                    <p>Looking for collaboration on exciting projects in game development, web technologies, or community platforms. Always open to new challenges and opportunities.</p>
+                    <p>Looking for collaboration on exciting projects in game development, web technologies, or network solutions. Always open to new challenges and opportunities.</p>
                     
                     <div class="contact-methods">
                         <div class="contact-item">
@@ -1256,6 +1301,45 @@
         
         btn.addEventListener('mouseleave', () => {
             btn.style.backgroundPosition = '0 0';
+        });
+
+        // Переключение темы
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Проверка сохраненной темы
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+        
+        // Проверка системных настроек
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        if (!savedTheme && prefersDarkScheme.matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        // Обработчик переключения
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
         });
     </script>
 </body>
