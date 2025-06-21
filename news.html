@@ -84,7 +84,7 @@
         }
 
         section {
-            padding: 120px 0;
+            padding: 100px 0;
             text-align: center;
             position: relative;
         }
@@ -255,17 +255,34 @@
             text-shadow: 0 2px 10px rgba(67, 97, 238, 0.2);
         }
 
+        .typing-container {
+            min-height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
         .hero-title {
             font-size: 4.5rem;
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 20px;
             font-family: 'Manrope', sans-serif;
             color: var(--text-dark);
-            opacity: 0;
-            animation: fadeInUp 0.8s 0.5s forwards;
             letter-spacing: -1px;
             text-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            display: inline-block;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 4px;
+            height: 4.5rem;
+            background-color: var(--accent-purple);
+            margin-left: 5px;
+            animation: blink 0.8s infinite;
+            vertical-align: text-bottom;
         }
 
         .hero-description {
@@ -847,6 +864,12 @@
             }
         }
 
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         /* Анимации для появления элементов при скролле */
         .animate-on-scroll {
             opacity: 0;
@@ -906,6 +929,10 @@
             .project-img {
                 height: 200px;
             }
+            
+            .cursor {
+                height: 3.5rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -936,6 +963,14 @@
             
             .project-img {
                 height: 180px;
+            }
+            
+            .typing-container {
+                min-height: 130px;
+            }
+            
+            .cursor {
+                height: 2.8rem;
             }
         }
 
@@ -973,6 +1008,68 @@
             .contact-item {
                 padding: 15px 20px;
             }
+            
+            .typing-container {
+                min-height: 100px;
+            }
+            
+            .cursor {
+                height: 2.3rem;
+            }
+            
+            .header-container {
+                padding: 0 15px;
+            }
+            
+            section {
+                padding: 70px 0;
+            }
+            
+            .project-content {
+                padding: 20px;
+            }
+            
+            .contact-methods {
+                gap: 15px;
+            }
+            
+            .contact-item {
+                padding: 15px;
+            }
+            
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .contact-text {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .cursor {
+                height: 2rem;
+            }
+            
+            .typing-container {
+                min-height: 85px;
+            }
+            
+            .project-link {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -997,7 +1094,10 @@
     <section class="hero">
         <div class="container hero-content">
             <h2 class="hero-subtitle">Founder of Reaver.Entertainment</h2>
-            <h1 class="hero-title">Hi, I'm xqow1x</h1>
+            <div class="typing-container">
+                <h1 class="hero-title" id="typingTitle"></h1>
+                <span class="cursor" id="typingCursor"></span>
+            </div>
             <p class="hero-description">
                 I specialize in <span class="highlight">web development</span>, 
                 <span class="highlight">Discord bots</span>, 
@@ -1051,12 +1151,12 @@
                         <i class="fab fa-discord"></i>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title"">Hey, Reaver" Discord Bot</h3>
+                        <h3 class="project-title">"Hey, Reaver" Discord Bot</h3>
                         <p class="project-description">A lightweight Discord music bot using Python, featuring YouTube playback, queue system, pause/resume, skip, and voice channel control via yt_dlp and FFmpeg.</p>
                         <div class="project-meta">
-                            <span class="project-tag">Discord.js</span>
-                            <span class="project-tag">Node.js</span>
-                            <span class="project-tag">MongoDB</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Discord.py</span>
+                            <span class="project-tag">FFmpeg</span>
                         </div>
                         <a href="https://discord.gg/NMvf3dkGmb" class="project-link">View Project <i class="fas fa-arrow-right"></i></a>
                     </div>
@@ -1068,7 +1168,7 @@
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Roblox Games</h3>
-                        <p class="project-description">A collection of diverse Roblox games across genres, including horror, PvP, roleplay, and story-driven experiences — all custom-made with original mechanics and style..</p>
+                        <p class="project-description">A collection of diverse Roblox games across genres, including horror, PvP, roleplay, and story-driven experiences — all custom-made with original mechanics and style.</p>
                         <div class="project-meta">
                             <span class="project-tag">Roblox Studio</span>
                             <span class="project-tag">Lua</span>
@@ -1141,7 +1241,7 @@
     
     <footer>
         <div class="container">
-            <p>© 202 REAVER.ENTERTAINMENT | Crafted with <i class="fas fa-heart" style="color: var(--accent-pink);"></i> by xqow1x</p>
+            <p>© 2025 REAVER.ENTERTAINMENT | Crafted with <i class="fas fa-heart" style="color: var(--accent-pink);"></i> by xqow1x</p>
         </div>
     </footer>
     
@@ -1174,6 +1274,29 @@
                 
                 particlesContainer.appendChild(particle);
             }
+        }
+        
+        // Анимация печатающегося текста
+        function typeText() {
+            const title = "Hi, I'm xqow1x";
+            const typingTitle = document.getElementById('typingTitle');
+            const typingCursor = document.getElementById('typingCursor');
+            let charIndex = 0;
+            
+            // Сначала показываем курсор
+            typingCursor.style.display = 'inline-block';
+            
+            // Эффект печатания
+            const typingInterval = setInterval(() => {
+                if (charIndex < title.length) {
+                    typingTitle.textContent += title.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(typingInterval);
+                    // После завершения печати, курсор мигает постоянно
+                    typingCursor.style.animation = 'blink 0.8s infinite';
+                }
+            }, 100);
         }
         
         // Обработка появления элементов при скролле
@@ -1239,6 +1362,7 @@
         // Эффект для карточек проектов
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
+            typeText(); // Запускаем анимацию печатания текста
             
             const skills = document.querySelectorAll('.skill');
             skills.forEach((skill, index) => {
@@ -1325,6 +1449,27 @@
                 localStorage.setItem('theme', 'dark');
             }
         });
+        
+        setTimeout(() => {
+            console.log("Initializing portfolio...");
+        }, 500);
+        
+        setTimeout(() => {
+            console.log("Loading assets...");
+        }, 1000);
+        
+        setTimeout(() => {
+            console.log("Rendering UI components...");
+        }, 1500);
+        
+        setTimeout(() => {
+            console.log("Applying animations...");
+        }, 2000);
+        
+        setTimeout(() => {
+            console.log("Portfolio ready!");
+            console.log("Welcome to Reaver.Entertainment");
+        }, 2500);
     </script>
 </body>
 </html>
