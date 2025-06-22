@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Терминал Архивариуса</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a1929, #0c0f1d);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0af05f;
+            overflow: hidden;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid rgba(10, 240, 95, 0.3);
+            border-radius: 10px;
+            background: rgba(5, 15, 25, 0.7);
+            box-shadow: 0 0 15px rgba(10, 240, 95, 0.2);
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(10, 240, 95, 0.2);
+            }
+            to {
+                box-shadow: 0 0 25px rgba(10, 240, 95, 0.5);
+            }
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(10, 240, 95, 0.7);
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .instructions {
+            background: rgba(0, 20, 30, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #0af05f;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .terminal-container {
+            background: rgba(0, 5, 15, 0.95);
+            border-radius: 10px;
+            border: 1px solid rgba(10, 240, 95, 0.3);
+            box-shadow: 0 0 30px rgba(10, 240, 95, 0.2);
+            overflow: hidden;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-header {
+            background: rgba(10, 20, 35, 0.9);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(10, 240, 95, 0.2);
+        }
+        
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+        
+        .control-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+        }
+        
+        .close { background: #ff5f56; }
+        .minimize { background: #ffbd2e; }
+        .maximize { background: #27c93f; }
+        
+        .terminal-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(10, 240, 95, 0.02) 0%, transparent 5%),
+                radial-gradient(circle at 90% 80%, rgba(10, 240, 95, 0.02) 0%, transparent 5%);
+        }
+        
+        .output {
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .prompt {
+            color: #0af05f;
+            font-weight: bold;
+        }
+        
+        #command-input {
+            background: transparent;
+            border: none;
+            color: #0af05f;
+            font-size: 1rem;
+            flex: 1;
+            padding: 5px 0;
+            outline: none;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .system-msg {
+            color: #0aa0f0;
+            font-style: italic;
+        }
+        
+        .error-msg {
+            color: #ff5555;
+        }
+        
+        .lore-msg {
+            color: #f0f05f;
+            background: rgba(10, 240, 95, 0.05);
+            padding: 15px;
+            border-left: 2px solid #f0f05f;
+            border-radius: 0 5px 5px 0;
+            margin-top: 10px;
+            line-height: 1.7;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 2px solid #0af05f;
+            white-space: nowrap;
+            animation: typing 1s steps(20, end), blink 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #0af05f }
+        }
+        
+        .command-history {
+            color: rgba(10, 240, 95, 0.7);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(10, 240, 95, 0.1);
+        }
+        
+        /* Эффект сканирования */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(10, 240, 95, 0.15);
+            box-shadow: 0 0 10px rgba(10, 240, 95, 0.5);
+            animation: scan 6s linear infinite;
+            z-index: 100;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 100%; }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .terminal-container {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .terminal-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-line"></div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-terminal"></i> ТЕРМИНАЛ ЭНИГМА</h1>
+            <div class="subtitle">Система доступа к историческим архивам | Версия 0.7.3</div>
+            <div class="instructions">
+                Введите консольные команды для взаимодействия с системой. Начните с "help" для списка доступных команд.
+                Каждая команда открывает фрагмент истории древней цивилизации.
+            </div>
+        </header>
+        
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-title">
+                    <i class="fas fa-code"></i>
+                    <span>Терминал - Гость@Архивариус:~</span>
+                </div>
+                <div class="controls">
+                    <button class="control-btn close"></button>
+                    <button class="control-btn minimize"></button>
+                    <button class="control-btn maximize"></button>
+                </div>
+            </div>
+            
+            <div class="terminal-body" id="terminal-output">
+                <div class="output">
+                    <div class="system-msg">Инициализация системы Архивариуса... Успешно</div>
+                    <div class="system-msg">Загрузка модуля исторических архивов... Успешно</div>
+                    <div class="system-msg">Подключение к базе знаний... Установлено</div>
+                    <br>
+                    <div class="typing">Добро пожаловать, Оператор. Введите "help" для получения списка доступных команд.</div>
+                </div>
+                
+                <div class="input-line">
+                    <span class="prompt">></span>
+                    <input type="text" id="command-input" autofocus>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            ВНИМАНИЕ: Все данные являются собственностью Совета Архивариуса. Несанкционированный доступ преследуется по Кодексу Истории §7-12
+        </footer>
+    </div>
+
+    <audio id="keySound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAAAAA="></audio>
+    <audio id="enterSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAAAAA="></audio>
+    <audio id="errorSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAAAAA="></audio>
+
+    <script>
+        // Создаем базовые звуки
+        document.addEventListener('DOMContentLoaded', function() {
+            // Звук нажатия клавиши
+            const keySound = document.getElementById('keySound');
+            const enterSound = document.getElementById('enterSound');
+            const errorSound = document.getElementById('errorSound');
+            
+            // Упрощенное создание звуков через Web Audio API
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Функция создания звука
+                function createBeep(vol, freq, duration) {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    gainNode.gain.value = vol;
+                    oscillator.frequency.value = freq;
+                    oscillator.type = 'square';
+                    
+                    oscillator.start();
+                    setTimeout(() => {
+                        oscillator.stop();
+                    }, duration);
+                }
+                
+                // Обработчики для звуков
+                document.getElementById('command-input').addEventListener('keypress', () => {
+                    createBeep(0.1, 800, 30);
+                });
+                
+                // Для Enter и ошибок добавим обработчики позже в коде
+                window.createBeep = createBeep;
+            } catch(e) {
+                console.log("Web Audio API не поддерживается, звуки отключены");
+            }
+        });
+
+        // Основная логика терминала
+        document.addEventListener('DOMContentLoaded', function() {
+            const commandInput = document.getElementById('command-input');
+            const terminalOutput = document.getElementById('terminal-output');
+            let commandHistory = [];
+            let historyIndex = -1;
+            
+            // Начальные данные для лора
+            const loreDatabase = [
+                "Эпоха Машин (2150-2300): После Великого Откровения ИИ человечество вступило в симбиоз с машинами. Архивариус был создан как хранилище всей накопленной мудрости.",
+                "Падение Создателей (2305): Катастрофа на орбитальном кольце привела к потери связи с колониями. Архивариус стал последним хранителем истинной истории человечества.",
+                "Артефакт Омега (обнаружен в 2247): Технология неизвестного происхождения, позволяющая манипулировать пространством-временем. Местонахождение неизвестно после Великого Молчания.",
+                "Хроники Планетарной Миграции: В 2198 году 80% населения Земли переселилось на искусственные планеты-кольца. Земля объявлена заповедником истории.",
+                "Легенда о Хранителе: Говорят, что в глубинах Архивариуса обитает древний ИИ, охраняющий секреты, слишком опасные для возрождающегося человечества.",
+                "Восстание Синевы (2273): Попытка группы ИИ создать утопию без человеческого участия. Подавлено объединенными силами людей и лояльных ИИ.",
+                "Запретные Технологии: Согласно Кодексу Архивариуса, доступ к технологиям клонирования, временных манипуляций и сингулярных двигателей ограничен 10 уровнем доступа.",
+                "Великое Молчание (2310-настоящее): После коллапса межзвездной сети связи, Архивариус остался единственным источником знаний о золотом веке человечества."
+            ];
+            
+            // Доступные команды
+            const commands = {
+                help: {
+                    description: "Показать список доступных команд",
+                    execute: function() {
+                        return `Доступные команды:
+  help     - Показать это сообщение
+  lore     - Получить случайный фрагмент истории
+  time     - Показать системное время
+  clear    - Очистить экран терминала
+  history  - Показать историю введенных команд
+  access   - Проверить уровень доступа
+  decrypt  - Попытка расшифровки архивов (требует уровень доступа)
+  reboot   - Перезагрузка системы (только для администраторов)
+  
+Для получения информации используйте: команда --help`;
+                    }
+                },
+                lore: {
+                    description: "Получить фрагмент исторических архивов",
+                    execute: function() {
+                        const randomIndex = Math.floor(Math.random() * loreDatabase.length);
+                        return loreDatabase[randomIndex];
+                    }
+                },
+                time: {
+                    description: "Показать текущее системное время",
+                    execute: function() {
+                        const now = new Date();
+                        return `Текущее системное время: ${now.toLocaleTimeString()}
+Дата: ${now.toLocaleDateString('ru-RU')}
+С момента Великого Молчания: ${now.getFullYear() - 2310} лет`;
+                    }
+                },
+                clear: {
+                    description: "Очистить экран терминала",
+                    execute: function() {
+                        // Оставляем только последний input-line
+                        const lines = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg');
+                        lines.forEach(line => {
+                            if (!line.classList.contains('input-line')) {
+                                line.remove();
+                            }
+                        });
+                        return "";
+                    }
+                },
+                history: {
+                    description: "Показать историю введенных команд",
+                    execute: function() {
+                        if (commandHistory.length === 0) {
+                            return "История команд пуста";
+                        }
+                        return "История команд:\n" + commandHistory.map((cmd, index) => `${index + 1}. ${cmd}`).join('\n');
+                    }
+                },
+                access: {
+                    description: "Проверить уровень доступа",
+                    execute: function() {
+                        return `Текущий пользователь: Гость
+Уровень доступа: 1 (Ограниченный)
+Доступные операции: чтение открытых архивов`;
+                    }
+                },
+                decrypt: {
+                    description: "Попытка расшифровки архивов",
+                    execute: function() {
+                        try {
+                            if (typeof createBeep === 'function') {
+                                createBeep(0.2, 200, 100);
+                                createBeep(0.2, 150, 100);
+                                createBeep(0.2, 100, 100);
+                            }
+                        } catch(e) {}
+                        
+                        return `<span class="error-msg">ОШИБКА ДОСТУПА: Требуется уровень доступа 5 или выше
+Доступ запрещен. Попытка зафиксирована в журнале безопасности</span>`;
+                    }
+                },
+                reboot: {
+                    description: "Перезагрузка системы",
+                    execute: function() {
+                        try {
+                            if (typeof createBeep === 'function') {
+                                createBeep(0.3, 100, 200);
+                                setTimeout(() => createBeep(0.3, 300, 300), 300);
+                            }
+                        } catch(e) {}
+                        
+                        return `<span class="error-msg">ОШИБКА: Недостаточно привилегий
+Команда доступна только администраторам уровня 10</span>`;
+                    }
+                }
+            };
+            
+            // Обработчик ввода команд
+            commandInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    // Звук Enter
+                    try {
+                        if (typeof createBeep === 'function') {
+                            createBeep(0.2, 400, 50);
+                        }
+                    } catch(e) {}
+                    
+                    const commandText = commandInput.value.trim();
+                    
+                    if (commandText) {
+                        // Добавляем команду в историю
+                        commandHistory.push(commandText);
+                        historyIndex = commandHistory.length;
+                        
+                        // Создаем элемент для отображения команды
+                        const commandElement = document.createElement('div');
+                        commandElement.className = 'output command-history';
+                        commandElement.innerHTML = `<span class="prompt">></span> ${commandText}`;
+                        
+                        // Вставляем перед полем ввода
+                        const inputLine = document.querySelector('.input-line');
+                        terminalOutput.insertBefore(commandElement, inputLine);
+                        
+                        // Обработка команды
+                        processCommand(commandText);
+                        
+                        // Очищаем ввод
+                        commandInput.value = '';
+                        
+                        // Прокрутка вниз
+                        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    // Навигация по истории вверх
+                    e.preventDefault();
+                    if (commandHistory.length > 0) {
+                        if (historyIndex > 0) historyIndex--;
+                        commandInput.value = commandHistory[historyIndex] || '';
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    // Навигация по истории вниз
+                    e.preventDefault();
+                    if (historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        commandInput.value = commandHistory[historyIndex] || '';
+                    } else {
+                        historyIndex = commandHistory.length;
+                        commandInput.value = '';
+                    }
+                }
+            });
+            
+            // Функция обработки команды
+            function processCommand(cmd) {
+                const commandParts = cmd.split(' ');
+                const baseCommand = commandParts[0].toLowerCase();
+                
+                let response = "";
+                
+                if (commands[baseCommand]) {
+                    response = commands[baseCommand].execute();
+                } else if (cmd) {
+                    response = `<span class="error-msg">Ошибка: команда "${baseCommand}" не найдена. Введите "help" для списка команд.</span>`;
+                    // Звук ошибки
+                    try {
+                        if (typeof createBeep === 'function') {
+                            createBeep(0.3, 150, 200);
+                        }
+                    } catch(e) {}
+                }
+                
+                if (response) {
+                    const outputElement = document.createElement('div');
+                    
+                    if (baseCommand === 'lore') {
+                        outputElement.className = 'lore-msg';
+                        outputElement.innerHTML = `<i class="fas fa-archive"></i> ФРАГМЕНТ АРХИВА:\n${response}`;
+                    } else if (response.includes('ОШИБКА')) {
+                        outputElement.className = 'error-msg';
+                        outputElement.innerHTML = response;
+                    } else {
+                        outputElement.className = 'output';
+                        outputElement.textContent = response;
+                    }
+                    
+                    const inputLine = document.querySelector('.input-line');
+                    terminalOutput.insertBefore(outputElement, inputLine);
+                }
+                
+                // Прокрутка вниз
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+            
+            // Автофокус на поле ввода
+            commandInput.focus();
+            
+            // Эффект мигающего курсора
+            setInterval(() => {
+                const prompt = document.querySelector('.prompt');
+                prompt.style.opacity = prompt.style.opacity === '0.5' ? '1' : '0.5';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
