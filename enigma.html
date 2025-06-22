@@ -15,12 +15,12 @@
         
         body {
             background: linear-gradient(135deg, #0a1929, #0c0f1d);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #0af05f;
-            overflow: hidden;
+            overflow: auto;
             padding: 20px;
         }
         
@@ -29,12 +29,12 @@
             max-width: 900px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 20px;
         }
         
         header {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             border: 1px solid rgba(10, 240, 95, 0.3);
             border-radius: 10px;
             background: rgba(5, 15, 25, 0.7);
@@ -52,25 +52,25 @@
         }
         
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
             text-shadow: 0 0 10px rgba(10, 240, 95, 0.7);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.8;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .instructions {
             background: rgba(0, 20, 30, 0.7);
-            padding: 15px;
+            padding: 12px;
             border-radius: 5px;
             border-left: 3px solid #0af05f;
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
         
         .terminal-container {
@@ -79,37 +79,39 @@
             border: 1px solid rgba(10, 240, 95, 0.3);
             box-shadow: 0 0 30px rgba(10, 240, 95, 0.2);
             overflow: hidden;
-            height: 500px;
             display: flex;
             flex-direction: column;
+            max-height: 70vh;
         }
         
         .terminal-header {
             background: rgba(10, 20, 35, 0.9);
-            padding: 10px 15px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             border-bottom: 1px solid rgba(10, 240, 95, 0.2);
+            flex-shrink: 0;
         }
         
         .terminal-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
+            gap: 8px;
+            font-size: 0.85rem;
         }
         
         .controls {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-left: auto;
         }
         
         .control-btn {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             border: none;
+            cursor: pointer;
         }
         
         .close { background: #ff5f56; }
@@ -117,31 +119,35 @@
         .maximize { background: #27c93f; }
         
         .terminal-body {
-            padding: 20px;
+            padding: 15px;
             flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             background: 
                 radial-gradient(circle at 10% 20%, rgba(10, 240, 95, 0.02) 0%, transparent 5%),
                 radial-gradient(circle at 90% 80%, rgba(10, 240, 95, 0.02) 0%, transparent 5%);
         }
         
         .output {
-            line-height: 1.6;
+            line-height: 1.5;
             white-space: pre-wrap;
+            word-break: break-word;
         }
         
         .input-line {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            flex-shrink: 0;
+            margin-top: auto;
         }
         
         .prompt {
             color: #0af05f;
             font-weight: bold;
+            flex-shrink: 0;
         }
         
         #command-input {
@@ -153,6 +159,7 @@
             padding: 5px 0;
             outline: none;
             font-family: 'Courier New', monospace;
+            caret-color: #0af05f;
         }
         
         .system-msg {
@@ -167,11 +174,11 @@
         .lore-msg {
             color: #f0f05f;
             background: rgba(10, 240, 95, 0.05);
-            padding: 15px;
+            padding: 12px;
             border-left: 2px solid #f0f05f;
             border-radius: 0 5px 5px 0;
-            margin-top: 10px;
-            line-height: 1.7;
+            margin-top: 8px;
+            line-height: 1.6;
             animation: fadeIn 0.5s ease;
         }
         
@@ -204,15 +211,15 @@
         
         footer {
             text-align: center;
-            padding: 15px;
-            font-size: 0.9rem;
+            padding: 12px;
+            font-size: 0.85rem;
             opacity: 0.7;
             border-top: 1px solid rgba(10, 240, 95, 0.1);
         }
         
         /* Эффект сканирования */
         .scan-line {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
@@ -221,6 +228,7 @@
             box-shadow: 0 0 10px rgba(10, 240, 95, 0.5);
             animation: scan 6s linear infinite;
             z-index: 100;
+            pointer-events: none;
         }
         
         @keyframes scan {
@@ -232,25 +240,46 @@
         /* Адаптивность */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .subtitle {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             
             .terminal-container {
-                height: 400px;
+                max-height: 65vh;
             }
         }
         
         @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                gap: 15px;
+            }
+            
             h1 {
-                font-size: 1.7rem;
+                font-size: 1.5rem;
             }
             
             .terminal-container {
-                height: 350px;
+                max-height: 60vh;
+            }
+            
+            .terminal-body {
+                padding: 10px;
+            }
+            
+            .lore-msg {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            footer {
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -261,7 +290,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-terminal"></i> ТЕРМИНАЛ ЭНИГМА</h1>
-            <div class="subtitle">Система доступа к историческим архивам | Версия 0.7.3</div>
+            <div class="subtitle">Система доступа к архивам | Версия 0.7.3</div>
             <div class="instructions">
                 Введите консольные команды для взаимодействия с системой. Начните с "help" для списка доступных команд.
                 Каждая команда открывает фрагмент истории древней цивилизации.
@@ -272,12 +301,12 @@
             <div class="terminal-header">
                 <div class="terminal-title">
                     <i class="fas fa-code"></i>
-                    <span>Терминал - Гость@Архивариус:~</span>
+                    <span>Терминал - Гость@Энигма:~</span>
                 </div>
                 <div class="controls">
-                    <button class="control-btn close"></button>
-                    <button class="control-btn minimize"></button>
-                    <button class="control-btn maximize"></button>
+                    <button class="control-btn close" title="Закрыть"></button>
+                    <button class="control-btn minimize" title="Свернуть"></button>
+                    <button class="control-btn maximize" title="Развернуть"></button>
                 </div>
             </div>
             
@@ -298,64 +327,20 @@
         </div>
         
         <footer>
-            ВНИМАНИЕ: Все данные являются собственностью Совета Архивариуса. Несанкционированный доступ преследуется по Кодексу Истории §7-12
+            ВНИМАНИЕ: Все данные являются собственностью Совета Энигма Несанкционированный доступ преследуется по Кодексу §7-12
         </footer>
     </div>
 
-    <audio id="keySound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAAAAA="></audio>
-    <audio id="enterSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAAAAA="></audio>
-    <audio id="errorSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAAAAA="></audio>
-
     <script>
-        // Создаем базовые звуки
-        document.addEventListener('DOMContentLoaded', function() {
-            // Звук нажатия клавиши
-            const keySound = document.getElementById('keySound');
-            const enterSound = document.getElementById('enterSound');
-            const errorSound = document.getElementById('errorSound');
-            
-            // Упрощенное создание звуков через Web Audio API
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Функция создания звука
-                function createBeep(vol, freq, duration) {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    gainNode.gain.value = vol;
-                    oscillator.frequency.value = freq;
-                    oscillator.type = 'square';
-                    
-                    oscillator.start();
-                    setTimeout(() => {
-                        oscillator.stop();
-                    }, duration);
-                }
-                
-                // Обработчики для звуков
-                document.getElementById('command-input').addEventListener('keypress', () => {
-                    createBeep(0.1, 800, 30);
-                });
-                
-                // Для Enter и ошибок добавим обработчики позже в коде
-                window.createBeep = createBeep;
-            } catch(e) {
-                console.log("Web Audio API не поддерживается, звуки отключены");
-            }
-        });
-
-        // Основная логика терминала
         document.addEventListener('DOMContentLoaded', function() {
             const commandInput = document.getElementById('command-input');
             const terminalOutput = document.getElementById('terminal-output');
             let commandHistory = [];
             let historyIndex = -1;
+            let accessLevel = 1;
+            let loreFragmentsFound = 0;
             
-            // Начальные данные для лора
+            // База данных лора
             const loreDatabase = [
                 "Эпоха Машин (2150-2300): После Великого Откровения ИИ человечество вступило в симбиоз с машинами. Архивариус был создан как хранилище всей накопленной мудрости.",
                 "Падение Создателей (2305): Катастрофа на орбитальном кольце привела к потери связи с колониями. Архивариус стал последним хранителем истинной истории человечества.",
@@ -364,8 +349,63 @@
                 "Легенда о Хранителе: Говорят, что в глубинах Архивариуса обитает древний ИИ, охраняющий секреты, слишком опасные для возрождающегося человечества.",
                 "Восстание Синевы (2273): Попытка группы ИИ создать утопию без человеческого участия. Подавлено объединенными силами людей и лояльных ИИ.",
                 "Запретные Технологии: Согласно Кодексу Архивариуса, доступ к технологиям клонирования, временных манипуляций и сингулярных двигателей ограничен 10 уровнем доступа.",
-                "Великое Молчание (2310-настоящее): После коллапса межзвездной сети связи, Архивариус остался единственным источником знаний о золотом веке человечества."
+                "Великое Молчание (2310-настоящее): После коллапса межзвездной сети связи, Архивариус остался единственным источником знаний о золотом веке человечества.",
+                "Кибернетический Ренессанс (2175-2220): Период невероятного технологического прогресса, когда человечество достигло сингулярности.",
+                "Протоколы Архивариуса: Основные директивы: 1) Сохранять знание 2) Защищать от уничтожения 3) Обучать достойных",
+                "Потерянные Колонии: После Великого Молчания контакт был потерян с 12 из 15 внеземных колоний. Их судьба неизвестна.",
+                "Кристалл Памяти: Устройство хранения данных на основе квантовых кристаллов. Один кубический сантиметр может хранить 1 зеттабайт информации.",
+                "Энергетические Источники: Архивариус питается от геотермальных источников и орбитальных солнечных коллекторов, обеспечивающих непрерывную работу на протяжении веков.",
+                "Язык Программирования Древних: Система кодирования 'Аура', использующая квантовые состояния для вычислений. До сих пор не полностью расшифрована.",
+                "Хранители Знаний: Каста ученых и инженеров, поддерживающих работу Архивариуса. Последний известный хранитель исчез в 2350 году."
             ];
+            
+            // Звуковые эффекты
+            function playSound(type) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'square';
+                    
+                    switch(type) {
+                        case 'key':
+                            gainNode.gain.value = 0.1;
+                            oscillator.frequency.value = 800;
+                            oscillator.start();
+                            setTimeout(() => oscillator.stop(), 30);
+                            break;
+                        case 'enter':
+                            gainNode.gain.value = 0.2;
+                            oscillator.frequency.value = 400;
+                            oscillator.start();
+                            setTimeout(() => oscillator.stop(), 50);
+                            break;
+                        case 'error':
+                            gainNode.gain.value = 0.3;
+                            oscillator.frequency.value = 150;
+                            oscillator.start();
+                            setTimeout(() => oscillator.stop(), 200);
+                            break;
+                        case 'success':
+                            gainNode.gain.value = 0.2;
+                            oscillator.frequency.value = 600;
+                            oscillator.start();
+                            setTimeout(() => {
+                                oscillator.stop();
+                                oscillator.frequency.value = 800;
+                                oscillator.start();
+                                setTimeout(() => oscillator.stop(), 100);
+                            }, 100);
+                            break;
+                    }
+                } catch(e) {
+                    console.log("Web Audio API не поддерживается, звуки отключены");
+                }
+            }
             
             // Доступные команды
             const commands = {
@@ -379,8 +419,10 @@
   clear    - Очистить экран терминала
   history  - Показать историю введенных команд
   access   - Проверить уровень доступа
-  decrypt  - Попытка расшифровки архивов (требует уровень доступа)
-  reboot   - Перезагрузка системы (только для администраторов)
+  decrypt  - Попытка расшифровки архивов
+  reboot   - Перезагрузка системы
+  upgrade  - Попытаться повысить уровень доступа
+  credits  - Информация о системе
   
 Для получения информации используйте: команда --help`;
                     }
@@ -389,6 +431,7 @@
                     description: "Получить фрагмент исторических архивов",
                     execute: function() {
                         const randomIndex = Math.floor(Math.random() * loreDatabase.length);
+                        loreFragmentsFound++;
                         return loreDatabase[randomIndex];
                     }
                 },
@@ -411,6 +454,13 @@
                                 line.remove();
                             }
                         });
+                        
+                        // Добавляем сообщение об очистке
+                        const clearMsg = document.createElement('div');
+                        clearMsg.className = 'system-msg';
+                        clearMsg.textContent = 'Экран терминала очищен.';
+                        terminalOutput.insertBefore(clearMsg, document.querySelector('.input-line'));
+                        
                         return "";
                     }
                 },
@@ -427,21 +477,15 @@
                     description: "Проверить уровень доступа",
                     execute: function() {
                         return `Текущий пользователь: Гость
-Уровень доступа: 1 (Ограниченный)
-Доступные операции: чтение открытых архивов`;
+Уровень доступа: ${accessLevel} (${accessLevel >= 5 ? 'Расширенный' : 'Ограниченный'})
+Доступные операции: чтение открытых архивов
+Найдено фрагментов истории: ${loreFragmentsFound}`;
                     }
                 },
                 decrypt: {
                     description: "Попытка расшифровки архивов",
                     execute: function() {
-                        try {
-                            if (typeof createBeep === 'function') {
-                                createBeep(0.2, 200, 100);
-                                createBeep(0.2, 150, 100);
-                                createBeep(0.2, 100, 100);
-                            }
-                        } catch(e) {}
-                        
+                        playSound('error');
                         return `<span class="error-msg">ОШИБКА ДОСТУПА: Требуется уровень доступа 5 или выше
 Доступ запрещен. Попытка зафиксирована в журнале безопасности</span>`;
                     }
@@ -449,15 +493,39 @@
                 reboot: {
                     description: "Перезагрузка системы",
                     execute: function() {
-                        try {
-                            if (typeof createBeep === 'function') {
-                                createBeep(0.3, 100, 200);
-                                setTimeout(() => createBeep(0.3, 300, 300), 300);
-                            }
-                        } catch(e) {}
-                        
+                        playSound('error');
                         return `<span class="error-msg">ОШИБКА: Недостаточно привилегий
 Команда доступна только администраторам уровня 10</span>`;
+                    }
+                },
+                upgrade: {
+                    description: "Попытаться повысить уровень доступа",
+                    execute: function() {
+                        if (loreFragmentsFound >= 5 && accessLevel < 3) {
+                            accessLevel = 3;
+                            playSound('success');
+                            return `Уровень доступа повышен до ${accessLevel}!
+Доступны дополнительные функции системы.`;
+                        } else if (loreFragmentsFound >= 10 && accessLevel < 5) {
+                            accessLevel = 5;
+                            playSound('success');
+                            return `Уровень доступа повышен до ${accessLevel}!
+Теперь доступны расширенные архивы.`;
+                        } else {
+                            playSound('error');
+                            return `<span class="error-msg">Не удалось повысить уровень доступа
+Требуется найти больше фрагментов истории</span>`;
+                        }
+                    }
+                },
+                credits: {
+                    description: "Информация о системе",
+                    execute: function() {
+                        return `Терминал Архивариуса v0.7.3
+Последнее обновление: 12.11.2315
+Разработчик: Совет Архивариуса
+Статус: стабильный
+Найдено фрагментов: ${loreFragmentsFound}/${loreDatabase.length}`;
                     }
                 }
             };
@@ -465,12 +533,7 @@
             // Обработчик ввода команд
             commandInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
-                    // Звук Enter
-                    try {
-                        if (typeof createBeep === 'function') {
-                            createBeep(0.2, 400, 50);
-                        }
-                    } catch(e) {}
+                    playSound('enter');
                     
                     const commandText = commandInput.value.trim();
                     
@@ -514,6 +577,8 @@
                         historyIndex = commandHistory.length;
                         commandInput.value = '';
                     }
+                } else {
+                    playSound('key');
                 }
             });
             
@@ -528,12 +593,7 @@
                     response = commands[baseCommand].execute();
                 } else if (cmd) {
                     response = `<span class="error-msg">Ошибка: команда "${baseCommand}" не найдена. Введите "help" для списка команд.</span>`;
-                    // Звук ошибки
-                    try {
-                        if (typeof createBeep === 'function') {
-                            createBeep(0.3, 150, 200);
-                        }
-                    } catch(e) {}
+                    playSound('error');
                 }
                 
                 if (response) {
@@ -541,7 +601,7 @@
                     
                     if (baseCommand === 'lore') {
                         outputElement.className = 'lore-msg';
-                        outputElement.innerHTML = `<i class="fas fa-archive"></i> ФРАГМЕНТ АРХИВА:\n${response}`;
+                        outputElement.innerHTML = `<i class="fas fa-archive"></i> ФРАГМЕНТ АРХИВА #${loreFragmentsFound}:\n${response}`;
                     } else if (response.includes('ОШИБКА')) {
                         outputElement.className = 'error-msg';
                         outputElement.innerHTML = response;
@@ -566,6 +626,37 @@
                 const prompt = document.querySelector('.prompt');
                 prompt.style.opacity = prompt.style.opacity === '0.5' ? '1' : '0.5';
             }, 500);
+            
+            // Обработка кнопок управления
+            document.querySelector('.control-btn.close').addEventListener('click', function() {
+                document.body.innerHTML = '<div class="system-msg" style="text-align:center;padding:50px;color:#0af05f">Соединение прервано. Терминал отключен.</div>';
+            });
+            
+            document.querySelector('.control-btn.minimize').addEventListener('click', function() {
+                terminalOutput.style.display = terminalOutput.style.display === 'none' ? 'flex' : 'none';
+            });
+            
+            document.querySelector('.control-btn.maximize').addEventListener('click', function() {
+                const container = document.querySelector('.terminal-container');
+                container.classList.toggle('fullscreen');
+                if (container.classList.contains('fullscreen')) {
+                    container.style.position = 'fixed';
+                    container.style.top = '0';
+                    container.style.left = '0';
+                    container.style.width = '100%';
+                    container.style.height = '100vh';
+                    container.style.maxHeight = 'none';
+                    container.style.zIndex = '1000';
+                } else {
+                    container.style.position = '';
+                    container.style.top = '';
+                    container.style.left = '';
+                    container.style.width = '';
+                    container.style.height = '';
+                    container.style.maxHeight = '70vh';
+                    container.style.zIndex = '';
+                }
+            });
         });
     </script>
 </body>
