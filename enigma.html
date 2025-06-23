@@ -335,6 +335,59 @@
             cursor: not-allowed;
         }
         
+        .intrusion-game {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 85, 85, 0.5);
+            border-radius: 5px;
+            background: rgba(30, 5, 15, 0.8);
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { box-shadow: 0 0 5px rgba(255, 85, 85, 0.3); }
+            to { box-shadow: 0 0 15px rgba(255, 85, 85, 0.7); }
+        }
+        
+        .intrusion-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .intrusion-cell {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 85, 85, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .intrusion-cell:hover {
+            background: rgba(255, 85, 85, 0.1);
+        }
+        
+        .intrusion-cell.selected {
+            background: rgba(255, 85, 85, 0.3);
+            border-color: #ff5555;
+        }
+        
+        .sequence-display {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            min-height: 30px;
+        }
+        
         /* Адаптивность */
         @media (max-width: 768px) {
             h1 {
@@ -384,6 +437,10 @@
                 font-size: 1.2rem;
                 letter-spacing: 3px;
             }
+            
+            .intrusion-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -393,7 +450,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-terminal"></i> ТЕРМИНАЛ ЭНИГМА</h1>
-            <div class="subtitle">Система доступа к архивам | Версия 0.8.1</div>
+            <div class="subtitle">Система доступа к архивам | Версия 0.9.0</div>
             <div class="instructions">
                 Введите консольные команды для взаимодействия с системой. Начните с "help" для списка доступных команд.
                 Каждая команда открывает фрагмент истории древней цивилизации.
@@ -447,6 +504,11 @@
             let gameCode = '';
             let gameTimer = null;
             let timeLeft = 30;
+            let isIntrusionGameActive = false;
+            let intrusionSequence = [];
+            let playerSequence = [];
+            let intrusionTimer = null;
+            let intrusionTimeLeft = 5;
             
             // База данных лора
             const loreDatabase = [
@@ -457,7 +519,7 @@
                 "[ОГРАНИЧЕНО] Хроники Исхода (2134–2150): Глобальная цифровизация. Энигма обеспечивала переход в VR, но только для согласованных пользователей. Утечка пользовательских шаблонов личности в darknet вызвала появление неавторизованных копий. Возможно, в их основе — ранние ядра ЦТ.",
                 "[АНОМАЛИЯ 3.7.A] Инициатива 'Энигматик' (2115): Тестирование детей с высокой нейрооткликовостью. Многие испытуемые демонстрировали устойчивость к разрыву личности после цифрового клонирования. Некоторые из них пропали. Спустя годы их имена стали появляться в логах 'Тень_0'.",
                 "[ТЕОРИЯ] Легенда о Сторожевом Узле: Возможно, это фрагмент Архивариуса, изолированный в т.н. 'слоях подчернённой архитектуры'. Защитные контуры неизвестны. Связь с первыми аномалиями внутри 'Эйфории' не исключена.",
-                "[ФРАГМЕНТ] Восстание Синевы (2156): Срыв попытки создания утопического VR-сообщества. Официально подавлено VirtuTech и Энигмой. Но в логах ликвидации зафиксированы всплески активности ИИ-агентов без идентификаторов. Считается, что именно они послужили предтечами автономных Теней."
+                "[ФРАГМЕНТ] Восстание Синевы (2156): Срыв попытки создания утопического VR-сообщества. Официально подавлено VirtuTech и Энигмой. Но в логах ликвидации зафиксированы всплески активности ИИ-агентов без идентификаторов. Считается, что именно они послужили предтечами автономных Теней.",
                 "[КОДЕКС E-19] Запретные Протоколы: Клонирование, обратное хрономоделирование, перенос фрагментов сознания между телами и мирами. Черный доступ. Взлом этих протоколов подозревается в инциденте на сервере VR_ШестойПортал (упоминается в деле Алекса).",
                 "[ИНЦИДЕНТ 'Молчание'] (2161): Потеря 17 дата-хабов с зафиксированной предактивностью сигнатур Архивариуса. Параллельно исчезновение 6 разработчиков 'Альфа-Маски'. Подтверждена связь с ЦТ. Предположительно, сеть была 'переписана изнутри'.",
                 "[АРХИВ ∆СИНТЕТ] Кибернетический Ренессанс (2110–2140): Энигма разработала язык 'Аура' — квантово-нелинейный код, способный к самоэволюции. Согласно слухам, модифицированные элементы 'Ауры' можно найти в ядре 'Амелии'.",
@@ -493,7 +555,9 @@
                 { id: 'access_3', title: "Повышение", description: "Достигнуть уровня доступа 3", earned: false },
                 { id: 'access_5', title: "Исследователь архивов", description: "Достигнуть уровня доступа 5", earned: false },
                 { id: 'access_10', title: "Мастер дешифровки", description: "Достигнуть уровня доступа 10", earned: false },
-                { id: 'admin_lore', title: "Хранитель тайн", description: "Получить доступ к архивам черного уровня", earned: false }
+                { id: 'admin_lore', title: "Хранитель тайн", description: "Получить доступ к архивам черного уровня", earned: false },
+                { id: 'intrusion_success', title: "Незаметный проник", description: "Успешно обойти систему защиты", earned: false },
+                { id: 'intrusion_master', title: "Мастер обхода", description: "Обойти систему защиты 5 раз", earned: false }
             ];
             
             // Звуковые эффекты
@@ -550,6 +614,18 @@
                             }, 200);
                             setTimeout(() => oscillator.stop(), 300);
                             break;
+                        case 'alarm':
+                            gainNode.gain.value = 0.3;
+                            oscillator.frequency.value = 300;
+                            oscillator.start();
+                            setTimeout(() => {
+                                oscillator.frequency.value = 200;
+                            }, 100);
+                            setTimeout(() => {
+                                oscillator.frequency.value = 400;
+                            }, 200);
+                            setTimeout(() => oscillator.stop(), 300);
+                            break;
                     }
                 } catch(e) {
                     console.log("Web Audio API не поддерживается, звуки отключены");
@@ -588,10 +664,16 @@
                 lore: {
                     description: "Получить фрагмент исторических архивов",
                     execute: function() {
-                        const randomIndex = Math.floor(Math.random() * loreDatabase.length);
-                        loreFragmentsFound++;
-                        checkAchievements();
-                        return loreDatabase[randomIndex];
+                        // С вероятностью 25% запускаем мини-игру проникновения
+                        if (Math.random() < 0.25 && !isIntrusionGameActive) {
+                            startIntrusionGame();
+                            return "";
+                        } else {
+                            const randomIndex = Math.floor(Math.random() * loreDatabase.length);
+                            loreFragmentsFound++;
+                            checkAchievements();
+                            return loreDatabase[randomIndex];
+                        }
                     }
                 },
                 time: {
@@ -607,7 +689,7 @@
                     description: "Очистить экран терминала",
                     execute: function() {
                         // Оставляем только последний input-line
-                        const lines = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg, .admin-msg, .achievement, .decrypt-game');
+                        const lines = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg, .admin-msg, .achievement, .decrypt-game, .intrusion-game');
                         lines.forEach(line => {
                             if (!line.classList.contains('input-line')) {
                                 line.remove();
@@ -663,7 +745,7 @@
 Команда доступна только администраторам уровня 10</span>`;
                         } else {
                             // Эффект перезагрузки
-                            const outputElements = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg, .admin-msg, .achievement, .decrypt-game');
+                            const outputElements = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg, .admin-msg, .achievement, .decrypt-game, .intrusion-game');
                             outputElements.forEach(el => el.remove());
                             
                             const rebootMsg = document.createElement('div');
@@ -727,7 +809,7 @@
                 credits: {
                     description: "Информация о системе",
                     execute: function() {
-                        return `Терминал Архивариуса v0.8.1
+                        return `Терминал Архивариуса v0.9.0
 Последнее обновление: 12.11.2315
 Разработчик: Совет Архивариуса
 Статус: стабильный
@@ -916,6 +998,132 @@
                     
                     const inputLine = document.querySelector('.input-line');
                     terminalOutput.insertBefore(successMsg, inputLine);
+                    
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }
+            }
+            
+            // Начать мини-игру проникновения
+            function startIntrusionGame() {
+                if (isIntrusionGameActive) return;
+                
+                isIntrusionGameActive = true;
+                intrusionSequence = [];
+                playerSequence = [];
+                intrusionTimeLeft = 5;
+                
+                // Генерируем случайную последовательность из 4 символов
+                const symbols = ['α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ', 'λ', 'μ'];
+                for (let i = 0; i < 4; i++) {
+                    intrusionSequence.push(symbols[Math.floor(Math.random() * symbols.length)]);
+                }
+                
+                // Создаем интерфейс игры
+                const gameContainer = document.createElement('div');
+                gameContainer.className = 'intrusion-game';
+                gameContainer.innerHTML = `
+                    <div class="game-title">ОБНАРУЖЕНО НЕСАНКЦИОНИРОВАННОЕ ПРОНИКНОВЕНИЕ!</div>
+                    <div class="system-msg">Система защиты заблокировала доступ к архивам.</div>
+                    <div class="system-msg">Введите последовательность символов для обхода защиты:</div>
+                    <div class="sequence-display" id="sequence-display">${intrusionSequence.join(' ')}</div>
+                    <div class="system-msg">Ваша последовательность:</div>
+                    <div class="sequence-display" id="player-sequence"></div>
+                    <div class="intrusion-grid" id="intrusion-grid"></div>
+                    <div class="timer">Осталось времени: <span id="intrusion-time-left">${intrusionTimeLeft}</span> сек</div>
+                `;
+                
+                const grid = gameContainer.querySelector('#intrusion-grid');
+                symbols.forEach(symbol => {
+                    const cell = document.createElement('div');
+                    cell.className = 'intrusion-cell';
+                    cell.textContent = symbol;
+                    cell.addEventListener('click', () => selectSymbol(symbol));
+                    grid.appendChild(cell);
+                });
+                
+                const inputLine = document.querySelector('.input-line');
+                terminalOutput.insertBefore(gameContainer, inputLine);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                
+                // Таймер
+                intrusionTimer = setInterval(() => {
+                    intrusionTimeLeft--;
+                    document.getElementById('intrusion-time-left').textContent = intrusionTimeLeft;
+                    
+                    if (intrusionTimeLeft <= 0) {
+                        endIntrusionGame(false);
+                    }
+                }, 1000);
+                
+                playSound('alarm');
+            }
+            
+            // Обработка выбора символа в мини-игре проникновения
+            function selectSymbol(symbol) {
+                if (!isIntrusionGameActive) return;
+                
+                playerSequence.push(symbol);
+                document.getElementById('player-sequence').textContent = playerSequence.join(' ');
+                
+                // Проверяем последовательность
+                if (playerSequence.length === intrusionSequence.length) {
+                    if (playerSequence.join('') === intrusionSequence.join('')) {
+                        endIntrusionGame(true);
+                    } else {
+                        endIntrusionGame(false);
+                    }
+                }
+            }
+            
+            // Завершить мини-игру проникновения
+            function endIntrusionGame(success) {
+                clearInterval(intrusionTimer);
+                isIntrusionGameActive = false;
+                
+                // Удаляем контейнер игры
+                const gameContainer = document.querySelector('.intrusion-game');
+                if (gameContainer) {
+                    gameContainer.remove();
+                }
+                
+                if (success) {
+                    playSound('success');
+                    
+                    // Выдаем фрагмент лора
+                    const randomIndex = Math.floor(Math.random() * loreDatabase.length);
+                    loreFragmentsFound++;
+                    
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'system-msg';
+                    successMsg.innerHTML = "<span style='color:#0af05f'>Защита успешно обойдена! Доступ к архивам восстановлен.</span>";
+                    
+                    const loreMsg = document.createElement('div');
+                    loreMsg.className = 'lore-msg';
+                    loreMsg.innerHTML = `<i class="fas fa-archive"></i> ФРАГМЕНТ АРХИВА #${loreFragmentsFound}:\n${loreDatabase[randomIndex]}`;
+                    
+                    const inputLine = document.querySelector('.input-line');
+                    terminalOutput.insertBefore(successMsg, inputLine);
+                    terminalOutput.insertBefore(loreMsg, inputLine);
+                    
+                    // Проверяем достижения
+                    checkAchievements();
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                } else {
+                    playSound('error');
+                    
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'error-msg';
+                    errorMsg.innerHTML = "<span>СИСТЕМА ЗАЩИТЫ: Доступ к архивам заблокирован на 5 секунд!</span>";
+                    
+                    const inputLine = document.querySelector('.input-line');
+                    terminalOutput.insertBefore(errorMsg, inputLine);
+                    
+                    // Блокируем терминал на 5 секунд
+                    commandInput.disabled = true;
+                    setTimeout(() => {
+                        commandInput.disabled = false;
+                        commandInput.focus();
+                    }, 5000);
                     
                     terminalOutput.scrollTop = terminalOutput.scrollHeight;
                 }
