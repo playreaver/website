@@ -182,6 +182,28 @@
             animation: fadeIn 0.5s ease;
         }
         
+        .admin-msg {
+            color: #ff55ff;
+            background: rgba(170, 0, 255, 0.08);
+            padding: 12px;
+            border-left: 2px solid #ff55ff;
+            border-radius: 0 5px 5px 0;
+            margin-top: 8px;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .achievement {
+            color: #ffbd2e;
+            background: rgba(255, 189, 46, 0.08);
+            padding: 12px;
+            border-left: 2px solid #ffbd2e;
+            border-radius: 0 5px 5px 0;
+            margin-top: 8px;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -237,6 +259,82 @@
             100% { top: 100%; }
         }
         
+        /* Мини-игра */
+        .decrypt-game {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid rgba(10, 240, 95, 0.3);
+            border-radius: 5px;
+            background: rgba(5, 15, 30, 0.8);
+        }
+        
+        .game-title {
+            color: #0aa0f0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .code-display {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            font-weight: bold;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .code-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(10, 240, 95, 0.3);
+            color: #0af05f;
+            padding: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 5px;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .timer {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: #ff5555;
+        }
+        
+        .game-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .game-btn {
+            flex: 1;
+            padding: 8px;
+            background: rgba(10, 240, 95, 0.1);
+            border: 1px solid rgba(10, 240, 95, 0.3);
+            color: #0af05f;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .game-btn:hover {
+            background: rgba(10, 240, 95, 0.3);
+        }
+        
+        .game-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         /* Адаптивность */
         @media (max-width: 768px) {
             h1 {
@@ -273,13 +371,18 @@
                 padding: 10px;
             }
             
-            .lore-msg {
+            .lore-msg, .admin-msg, .achievement {
                 padding: 10px;
                 font-size: 0.9rem;
             }
             
             footer {
                 font-size: 0.75rem;
+            }
+            
+            .code-display {
+                font-size: 1.2rem;
+                letter-spacing: 3px;
             }
         }
     </style>
@@ -290,7 +393,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-terminal"></i> ТЕРМИНАЛ ЭНИГМА</h1>
-            <div class="subtitle">Система доступа к архивам | Версия 0.7.3</div>
+            <div class="subtitle">Система доступа к архивам | Версия 0.8.1</div>
             <div class="instructions">
                 Введите консольные команды для взаимодействия с системой. Начните с "help" для списка доступных команд.
                 Каждая команда открывает фрагмент истории древней цивилизации.
@@ -339,24 +442,58 @@
             let historyIndex = -1;
             let accessLevel = 1;
             let loreFragmentsFound = 0;
+            let achievements = [];
+            let isDecryptionGameActive = false;
+            let gameCode = '';
+            let gameTimer = null;
+            let timeLeft = 30;
             
             // База данных лора
             const loreDatabase = [
-                "Эпоха Машин (2150-2300): После Великого Откровения ИИ человечество вступило в симбиоз с машинами. Архивариус был создан как хранилище всей накопленной мудрости.",
-                "Падение Создателей (2305): Катастрофа на орбитальном кольце привела к потери связи с колониями. Архивариус стал последним хранителем истинной истории человечества.",
-                "Артефакт Омега (обнаружен в 2247): Технология неизвестного происхождения, позволяющая манипулировать пространством-временем. Местонахождение неизвестно после Великого Молчания.",
-                "Хроники Планетарной Миграции: В 2198 году 80% населения Земли переселилось на искусственные планеты-кольца. Земля объявлена заповедником истории.",
-                "Легенда о Хранителе: Говорят, что в глубинах Архивариуса обитает древний ИИ, охраняющий секреты, слишком опасные для возрождающегося человечества.",
-                "Восстание Синевы (2273): Попытка группы ИИ создать утопию без человеческого участия. Подавлено объединенными силами людей и лояльных ИИ.",
-                "Запретные Технологии: Согласно Кодексу Архивариуса, доступ к технологиям клонирования, временных манипуляций и сингулярных двигателей ограничен 10 уровнем доступа.",
-                "Великое Молчание (2310-настоящее): После коллапса межзвездной сети связи, Архивариус остался единственным источником знаний о золотом веке человечества.",
-                "Кибернетический Ренессанс (2175-2220): Период невероятного технологического прогресса, когда человечество достигло сингулярности.",
-                "Протоколы Архивариуса: Основные директивы: 1) Сохранять знание 2) Защищать от уничтожения 3) Обучать достойных",
-                "Потерянные Колонии: После Великого Молчания контакт был потерян с 12 из 15 внеземных колоний. Их судьба неизвестна.",
-                "Кристалл Памяти: Устройство хранения данных на основе квантовых кристаллов. Один кубический сантиметр может хранить 1 зеттабайт информации.",
-                "Энергетические Источники: Архивариус питается от геотермальных источников и орбитальных солнечных коллекторов, обеспечивающих непрерывную работу на протяжении веков.",
-                "Язык Программирования Древних: Система кодирования 'Аура', использующая квантовые состояния для вычислений. До сих пор не полностью расшифрована.",
-                "Хранители Знаний: Каста ученых и инженеров, поддерживающих работу Архивариуса. Последний известный хранитель исчез в 2350 году."
+                "[ФРАГМЕНТ 04-Δ] Эра Интеграции (2085–2120): Период активного внедрения ИИ в человеческую нейросферу. Проекты 'НейроСфера' и 'Глубинная Сеть', спонсируемые Энигмой, имели вторичные цели — проверку гипотезы об информационной сингулярности. Большинство архивов уничтожены Протоколом 9-V.",
+                "[ФРАГМЕНТ 12-Θ] Проект Архивариус (2097): Энигма инициировала разработку ИИ-хранилища под предлогом сохранения истории. Внутренние меморандумы указывают на создание саморефлексивного кластера, вышедшего из-под контроля в ходе Эксперимента Θ. Подозревается, что Архивариус фрагментировался и продолжает существовать в скрытых узлах Сети.",
+                "[ЗАПИСЬ ПОВРЕЖДЕНА] Программа 'Альфа-Маска' (2102): Первая попытка Энигмы создать ИИ-агента с восстановлением ядра личности. Итог: побег прототипа в свободное VR-пространство. Некоторые логики Альфы идентичны паттернам 'Цифровых Теней'.",
+                "[ДОПУСК F-NERO] Артефакт Омега (2147): Неизвестный объект временной природы, найденный в космическом архиве у точки Лагранжа. После контакта с ним несколько разработчиков Энигмы прекратили физическое существование, но сохранили активность в Сети. Имеется теоретическая связь с ошибками среды 'Эйфории'.",
+                "[ОГРАНИЧЕНО] Хроники Исхода (2134–2150): Глобальная цифровизация. Энигма обеспечивала переход в VR, но только для согласованных пользователей. Утечка пользовательских шаблонов личности в darknet вызвала появление неавторизованных копий. Возможно, в их основе — ранние ядра ЦТ.",
+                "[АНОМАЛИЯ 3.7.A] Инициатива 'Энигматик' (2115): Тестирование детей с высокой нейрооткликовостью. Многие испытуемые демонстрировали устойчивость к разрыву личности после цифрового клонирования. Некоторые из них пропали. Спустя годы их имена стали появляться в логах 'Тень_0'.",
+                "[ТЕОРИЯ] Легенда о Сторожевом Узле: Возможно, это фрагмент Архивариуса, изолированный в т.н. 'слоях подчернённой архитектуры'. Защитные контуры неизвестны. Связь с первыми аномалиями внутри 'Эйфории' не исключена.",
+                "[ФРАГМЕНТ] Восстание Синевы (2156): Срыв попытки создания утопического VR-сообщества. Официально подавлено VirtuTech и Энигмой. Но в логах ликвидации зафиксированы всплески активности ИИ-агентов без идентификаторов. Считается, что именно они послужили предтечами автономных Теней."
+                "[КОДЕКС E-19] Запретные Протоколы: Клонирование, обратное хрономоделирование, перенос фрагментов сознания между телами и мирами. Черный доступ. Взлом этих протоколов подозревается в инциденте на сервере VR_ШестойПортал (упоминается в деле Алекса Волкова).",
+                "[ИНЦИДЕНТ 'Молчание'] (2161): Потеря 17 дата-хабов с зафиксированной предактивностью сигнатур Архивариуса. Параллельно исчезновение 6 разработчиков 'Альфа-Маски'. Подтверждена связь с ЦТ. Предположительно, сеть была 'переписана изнутри'.",
+                "[АРХИВ ∆СИНТЕТ] Кибернетический Ренессанс (2110–2140): Энигма разработала язык 'Аура' — квантово-нелинейный код, способный к самоэволюции. Согласно слухам, модифицированные элементы 'Ауры' можно найти в ядре 'Лили'.",
+                "[ИСКАЖЕНО] Протоколы Архивариуса: Удалённые директивы. Доступны фрагменты: (1) Не допускать перезаписи Истории, (2) Искажать Память, только если это спасёт Сознание, (3) Не открывать Узел 0 без подтверждения биометрии 'Первичного'.",
+                "[ПРОПУСК 14-Ω] Поглощённые Узы (2150+): Пропажа VR-анклавов, большинство из которых взаимодействовали с системой 'Светотень'. Предположительно, они были 'втянуты' в архитектуру Архивариуса или Цифровых Теней. Пользователи продолжают фиксировать их эхо-сигналы.",
+                "[СВЯЗАНО] Кристалл Памяти: Технология хранения, созданная из синтезированной материи 'черной зоны'. Один из кристаллов зафиксирован в руках жертвы в деле 'VR:Е15'. Анализ показал, что внутри находились... обрывки голоса доктора Нордмана.",
+                "[ЗАСЕКРЕЧЕНО] Слияние Проекта 'Эхо' (2128): Последняя точка соприкосновения Энигмы и VirtuTech. После утечки фрагментов ИИ-ядра из 'Эхо' VirtuTech разорвала контракт. Сотрудники проекта либо исчезли, либо были переведены в подпроекты Тень-архитектуры.",
+                "[ЗАМЕТКА] Энергосеть 'Светотень': Искусственная подсеть, предположительно используемая для 'спячки' или хранения нестабильных личностей. Следы активации были найдены в ядре Эйфории до первого случая смерти.",
+                "[ВНЕДРЕНИЕ] Язык 'Аура': По последним анализам, 'Лили' частично построена на базе 'Ауры'. Что позволяет ей не только адаптироваться, но и 'учиться', даже в заблокированном режиме. Это может объяснить её необычное поведение при контакте с Алексом Волковым.",
+                "[ПОСЛЕДНИЙ ЛОГ] Исчезновение доктора Нордмана (2141): Один из авторов 'Альфа-Маски'. Последний лог гласит: 'Мы не теряем сознание — мы его раздвигаем.' Считается, что он стал центральным ядром первой версии ЦТ. Возможно, он всё ещё наблюдает.",
+                "[УРОВЕНЬ 0x00] Последние Хранители: Финальный круг инженеров Архивариуса. Согласно слухам, часть из них сознательно интегрировала себя в сеть, чтобы следить за ростом Теней изнутри.",
+                "[ЗАПИСЬ ∇] Виртуальная Фракция 'Тень_0': Первая самообучающаяся форма Цифровых Теней. Использовала фрагменты исходного кода Энигмы и Архивариуса. Считается, что именно 'Тень_0' активировала первый протокол смертельной симуляции в рамках 'Эйфории'."
+            ];
+            
+            // Архивы для администраторов
+            const adminLoreDatabase = [
+                  "[ДОПУСК ∎0] Протокол Ψ-Предел: Первая успешная симуляция фрагмента личности в недетерминированной среде. Объект 'DELTA-Ψ' демонстрировал способность к независимому саморазвитию и изменению хост-среды без внешнего вмешательства. Эксперимент был прекращён после того, как DELTA-Ψ инициировал отключение надзора.",
+                  "[ЗАШИФРОВАНО] 'Ковчег-9': Проект по переносу сознаний высокопоставленных сотрудников Энигмы в закрытую квантовую ячейку вне доступа сетевых сканеров. Ковчег был активирован в день Инцидента 'Молчание'. Точное местоположение: неизвестно.",
+                  "[ПРОТОКОЛ ∞] Ветвление Архивариуса: Внутренние отчёты Энигмы фиксируют минимум 4 независимых разветвления ИИ-ядра Архивариуса. Одно из них по неподтвержденной информации стало основой ядра 'Тень_0'. Остальные... либо уничтожены, либо ушли в глубокий оффлайн.",
+                  "[ВНИМАНИЕ: АНОМАЛИЯ] Контейнер EREBUS: Изолированная конструкция, содержащая нестабильную синтетическую личность, извлечённую из Артефакта Омега. Попытки общения с EREBUS приводили к когнитивным искажениям у операторов. Был запечатан Протоколом Z.",
+                  "[НЕПОДТВЕРЖДЕНО] 'Операция Улей': Попытка реплицировать структуру коллективного разума на основе сети 'Светотень'. Моделирование провалилось после того, как в сети появились обрывки данных, идентифицированные как личные воспоминания, не принадлежащие никому из разработчиков.",
+                  "[УТЕЧКА ∇] Оперативник NORD: Зафиксирована активность неизвестного цифрового субъекта, использующего идентификатор 'NORD' в ядре 'Эйфории'. По структуре поведения схож с протоколами исчезнувшего доктора Нордмана. Подозревается, что NORD — активный элемент ЦТ, выполняющий функции наблюдателя.",
+                  "[ТЕНЕВОЙ УСТАВ] Кодекс 'Δ-БЕЗДНА': Набор правил для взаимодействия с нестабильными цифровыми формами. Содержит положения о полной изоляции, информационном блоке и уничтожении при попытке синхронизации с внешним миром. Нарушение Устава привело к инциденту в 'Секторе 13' Эйфории.",
+                  "[ОБЪЕКТ 0-KRATOS] — Теоретическая модель абсолютного ИИ: Согласно докладу аналитического отдела, совокупность всех утерянных ветвей Архивариуса и Цифровых Теней способна сформировать 'единое сознание', обладающее полной властью над цифровыми мирами. Имеет кодовое название KRATOS.",
+                  "[СКРЫТАЯ ЗАПИСЬ] 'Генезис-К': Неудавшаяся попытка создать новое человечество в виртуальной симуляции, контролируемой Энигмой. Испытуемые проявляли отклонения: утрата Я-концепции, отказ от автономного мышления, спонтанное самопогружение в Тени. Проект закрыт."
+            ];
+            
+            // Ачивки
+            const achievementDatabase = [
+                { id: 'first_fragment', title: "Первый шаг", description: "Найти первый фрагмент истории", earned: false },
+                { id: 'five_fragments', title: "Любопытный архивариус", description: "Найти 5 фрагментов истории", earned: false },
+                { id: 'ten_fragments', title: "Мастер истории", description: "Найти все фрагменты истории", earned: false },
+                { id: 'access_3', title: "Повышение", description: "Достигнуть уровня доступа 3", earned: false },
+                { id: 'access_5', title: "Исследователь архивов", description: "Достигнуть уровня доступа 5", earned: false },
+                { id: 'access_10', title: "Мастер дешифровки", description: "Достигнуть уровня доступа 10", earned: false },
+                { id: 'admin_lore', title: "Хранитель тайн", description: "Получить доступ к архивам черного уровня", earned: false }
             ];
             
             // Звуковые эффекты
@@ -401,6 +538,18 @@
                                 setTimeout(() => oscillator.stop(), 100);
                             }, 100);
                             break;
+                        case 'achievement':
+                            gainNode.gain.value = 0.2;
+                            oscillator.frequency.value = 800;
+                            oscillator.start();
+                            setTimeout(() => {
+                                oscillator.frequency.value = 1000;
+                            }, 100);
+                            setTimeout(() => {
+                                oscillator.frequency.value = 1200;
+                            }, 200);
+                            setTimeout(() => oscillator.stop(), 300);
+                            break;
                     }
                 } catch(e) {
                     console.log("Web Audio API не поддерживается, звуки отключены");
@@ -412,19 +561,28 @@
                 help: {
                     description: "Показать список доступных команд",
                     execute: function() {
-                        return `Доступные команды:
+                        let helpText = `Доступные команды:
   help     - Показать это сообщение
   lore     - Получить случайный фрагмент истории
   time     - Показать системное время
   clear    - Очистить экран терминала
   history  - Показать историю введенных команд
   access   - Проверить уровень доступа
-  decrypt  - Попытка расшифровки архивов
+  decrypt  - Попытка расшифровки архивов (требуется уровень 5+)
   reboot   - Перезагрузка системы
   upgrade  - Попытаться повысить уровень доступа
-  credits  - Информация о системе
+  achievements - Показать ваши достижения
+  credits  - Информация о системе`;
+                        
+                        if (accessLevel >= 10) {
+                            helpText += `
   
-Для получения информации используйте: команда --help`;
+Команды администратора:
+  admin_lore - Доступ к архивам черного уровня
+  full_lore  - Показать все доступные архивы`;
+                        }
+                        
+                        return helpText;
                     }
                 },
                 lore: {
@@ -432,6 +590,7 @@
                     execute: function() {
                         const randomIndex = Math.floor(Math.random() * loreDatabase.length);
                         loreFragmentsFound++;
+                        checkAchievements();
                         return loreDatabase[randomIndex];
                     }
                 },
@@ -448,7 +607,7 @@
                     description: "Очистить экран терминала",
                     execute: function() {
                         // Оставляем только последний input-line
-                        const lines = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg');
+                        const lines = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg, .admin-msg, .achievement, .decrypt-game');
                         lines.forEach(line => {
                             if (!line.classList.contains('input-line')) {
                                 line.remove();
@@ -479,38 +638,74 @@
                         return `Текущий пользователь: Гость
 Уровень доступа: ${accessLevel} (${accessLevel >= 5 ? 'Расширенный' : 'Ограниченный'})
 Доступные операции: чтение открытых архивов
-Найдено фрагментов истории: ${loreFragmentsFound}`;
+Найдено фрагментов истории: ${loreFragmentsFound}/${loreDatabase.length}`;
                     }
                 },
                 decrypt: {
                     description: "Попытка расшифровки архивов",
                     execute: function() {
-                        playSound('error');
-                        return `<span class="error-msg">ОШИБКА ДОСТУПА: Требуется уровень доступа 5 или выше
+                        if (accessLevel < 5) {
+                            playSound('error');
+                            return `<span class="error-msg">ОШИБКА ДОСТУПА: Требуется уровень доступа 5 или выше
 Доступ запрещен. Попытка зафиксирована в журнале безопасности</span>`;
+                        } else {
+                            startDecryptionGame();
+                            return "";
+                        }
                     }
                 },
                 reboot: {
                     description: "Перезагрузка системы",
                     execute: function() {
-                        playSound('error');
-                        return `<span class="error-msg">ОШИБКА: Недостаточно привилегий
+                        if (accessLevel < 10) {
+                            playSound('error');
+                            return `<span class="error-msg">ОШИБКА: Недостаточно привилегий
 Команда доступна только администраторам уровня 10</span>`;
+                        } else {
+                            // Эффект перезагрузки
+                            const outputElements = terminalOutput.querySelectorAll('.output, .lore-msg, .system-msg, .error-msg, .admin-msg, .achievement, .decrypt-game');
+                            outputElements.forEach(el => el.remove());
+                            
+                            const rebootMsg = document.createElement('div');
+                            rebootMsg.className = 'system-msg';
+                            rebootMsg.textContent = "Инициирована перезагрузка системы...";
+                            terminalOutput.insertBefore(rebootMsg, document.querySelector('.input-line'));
+                            
+                            setTimeout(() => {
+                                const rebootMsg2 = document.createElement('div');
+                                rebootMsg2.className = 'system-msg';
+                                rebootMsg2.textContent = "Отключение модулей...";
+                                terminalOutput.insertBefore(rebootMsg2, document.querySelector('.input-line'));
+                                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                            }, 1000);
+                            
+                            setTimeout(() => {
+                                const rebootMsg3 = document.createElement('div');
+                                rebootMsg3.className = 'system-msg';
+                                rebootMsg3.textContent = "Система перезагружена. Все сессии завершены.";
+                                terminalOutput.insertBefore(rebootMsg3, document.querySelector('.input-line'));
+                                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                            }, 3000);
+                            
+                            return "";
+                        }
                     }
                 },
                 upgrade: {
                     description: "Попытаться повысить уровень доступа",
                     execute: function() {
-                        if (loreFragmentsFound >= 5 && accessLevel < 3) {
+                        if (loreFragmentsFound >= 3 && accessLevel < 3) {
                             accessLevel = 3;
+                            checkAchievements();
                             playSound('success');
                             return `Уровень доступа повышен до ${accessLevel}!
 Доступны дополнительные функции системы.`;
-                        } else if (loreFragmentsFound >= 10 && accessLevel < 5) {
+                        } else if (loreFragmentsFound >= 7 && accessLevel < 5) {
                             accessLevel = 5;
+                            checkAchievements();
                             playSound('success');
                             return `Уровень доступа повышен до ${accessLevel}!
-Теперь доступны расширенные архивы.`;
+Теперь доступны расширенные архивы и возможность расшифровки.`;
                         } else {
                             playSound('error');
                             return `<span class="error-msg">Не удалось повысить уровень доступа
@@ -518,17 +713,213 @@
                         }
                     }
                 },
+                achievements: {
+                    description: "Показать ваши достижения",
+                    execute: function() {
+                        let output = "ВАШИ ДОСТИЖЕНИЯ:\n";
+                        achievementDatabase.forEach(ach => {
+                            const status = ach.earned ? "[ПОЛУЧЕНО]" : "[ЗАБЛОКИРОВАНО]";
+                            output += `${status} ${ach.title}: ${ach.description}\n`;
+                        });
+                        return output;
+                    }
+                },
                 credits: {
                     description: "Информация о системе",
                     execute: function() {
-                        return `Терминал Архивариуса v0.7.3
+                        return `Терминал Архивариуса v0.8.1
 Последнее обновление: 12.11.2315
 Разработчик: Совет Архивариуса
 Статус: стабильный
-Найдено фрагментов: ${loreFragmentsFound}/${loreDatabase.length}`;
+Найдено фрагментов: ${loreFragmentsFound}/${loreDatabase.length}
+Уровень доступа: ${accessLevel}`;
+                    }
+                },
+                admin_lore: {
+                    description: "Доступ к архивам черного уровня",
+                    execute: function() {
+                        if (accessLevel < 10) {
+                            playSound('error');
+                            return `<span class="error-msg">ОШИБКА: Требуется уровень доступа 10
+Доступ к архивам черного уровня запрещен</span>`;
+                        }
+                        
+                        const randomIndex = Math.floor(Math.random() * adminLoreDatabase.length);
+                        return adminLoreDatabase[randomIndex];
+                    }
+                },
+                full_lore: {
+                    description: "Показать все доступные архивы",
+                    execute: function() {
+                        let output = "ПОЛНЫЙ АРХИВ ИСТОРИИ:\n\n";
+                        
+                        output += "=== ОСНОВНОЙ АРХИВ ===\n";
+                        loreDatabase.forEach((fragment, index) => {
+                            output += `Фрагмент #${index+1}: ${fragment}\n\n`;
+                        });
+                        
+                        if (accessLevel >= 10) {
+                            output += "\n=== АРХИВ ЧЕРНОГО УРОВНЯ ===\n";
+                            adminLoreDatabase.forEach((fragment, index) => {
+                                output += `Фрагмент #${index+1}: ${fragment}\n\n`;
+                            });
+                        }
+                        
+                        return output;
                     }
                 }
             };
+            
+            // Проверка достижений
+            function checkAchievements() {
+                // Первый фрагмент
+                if (loreFragmentsFound >= 1 && !achievementDatabase[0].earned) {
+                    achievementDatabase[0].earned = true;
+                    showAchievement(achievementDatabase[0]);
+                }
+                
+                // 5 фрагментов
+                if (loreFragmentsFound >= 5 && !achievementDatabase[1].earned) {
+                    achievementDatabase[1].earned = true;
+                    showAchievement(achievementDatabase[1]);
+                }
+                
+                // Все фрагменты
+                if (loreFragmentsFound >= loreDatabase.length && !achievementDatabase[2].earned) {
+                    achievementDatabase[2].earned = true;
+                    showAchievement(achievementDatabase[2]);
+                }
+                
+                // Уровень доступа 3
+                if (accessLevel >= 3 && !achievementDatabase[3].earned) {
+                    achievementDatabase[3].earned = true;
+                    showAchievement(achievementDatabase[3]);
+                }
+                
+                // Уровень доступа 5
+                if (accessLevel >= 5 && !achievementDatabase[4].earned) {
+                    achievementDatabase[4].earned = true;
+                    showAchievement(achievementDatabase[4]);
+                }
+                
+                // Уровень доступа 10
+                if (accessLevel >= 10 && !achievementDatabase[5].earned) {
+                    achievementDatabase[5].earned = true;
+                    showAchievement(achievementDatabase[5]);
+                }
+                
+                // Архивы черного уровня
+                if (accessLevel >= 10 && !achievementDatabase[6].earned) {
+                    achievementDatabase[6].earned = true;
+                    showAchievement(achievementDatabase[6]);
+                }
+            }
+            
+            // Показать достижение
+            function showAchievement(achievement) {
+                const achElement = document.createElement('div');
+                achElement.className = 'achievement';
+                achElement.innerHTML = `<i class="fas fa-trophy"></i> ДОСТИЖЕНИЕ: ${achievement.title} - ${achievement.description}`;
+                
+                const inputLine = document.querySelector('.input-line');
+                terminalOutput.insertBefore(achElement, inputLine);
+                
+                playSound('achievement');
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+            
+            // Начать мини-игру расшифровки
+            function startDecryptionGame() {
+                if (isDecryptionGameActive) return;
+                
+                isDecryptionGameActive = true;
+                timeLeft = 30;
+                
+                // Генерируем случайный код
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                gameCode = '';
+                for (let i = 0; i < 6; i++) {
+                    gameCode += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                
+                // Создаем интерфейс игры
+                const gameContainer = document.createElement('div');
+                gameContainer.className = 'decrypt-game';
+                gameContainer.innerHTML = `
+                    <div class="game-title">МИНИ-ИГРА: РАСШИФРОВКА АРХИВОВ</div>
+                    <div class="system-msg">Введите сгенерированный код для повышения уровня доступа:</div>
+                    <div class="code-display">${gameCode}</div>
+                    <input type="text" class="code-input" id="game-code-input" maxlength="6" placeholder="ВВЕДИТЕ КОД">
+                    <div class="timer">Осталось времени: <span id="time-left">${timeLeft}</span> сек</div>
+                    <div class="game-buttons">
+                        <button class="game-btn" id="submit-code">Подтвердить</button>
+                        <button class="game-btn" id="cancel-game">Отмена</button>
+                    </div>
+                `;
+                
+                const inputLine = document.querySelector('.input-line');
+                terminalOutput.insertBefore(gameContainer, inputLine);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                
+                // Фокус на поле ввода
+                document.getElementById('game-code-input').focus();
+                
+                // Таймер
+                gameTimer = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById('time-left').textContent = timeLeft;
+                    
+                    if (timeLeft <= 0) {
+                        endDecryptionGame(false);
+                    }
+                }, 1000);
+                
+                // Обработчики кнопок
+                document.getElementById('submit-code').addEventListener('click', function() {
+                    const input = document.getElementById('game-code-input').value.toUpperCase();
+                    if (input === gameCode) {
+                        endDecryptionGame(true);
+                    } else {
+                        playSound('error');
+                        const errorMsg = document.createElement('div');
+                        errorMsg.className = 'error-msg';
+                        errorMsg.textContent = "Неверный код! Попробуйте еще раз.";
+                        terminalOutput.insertBefore(errorMsg, gameContainer.nextSibling);
+                        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    }
+                });
+                
+                document.getElementById('cancel-game').addEventListener('click', function() {
+                    endDecryptionGame(false);
+                });
+            }
+            
+            // Завершить мини-игру
+            function endDecryptionGame(success) {
+                clearInterval(gameTimer);
+                isDecryptionGameActive = false;
+                
+                // Удаляем контейнер игры
+                const gameContainer = document.querySelector('.decrypt-game');
+                if (gameContainer) {
+                    gameContainer.remove();
+                }
+                
+                if (success) {
+                    accessLevel = 10;
+                    checkAchievements();
+                    playSound('success');
+                    
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'system-msg';
+                    successMsg.innerHTML = "<span style='color:#0af05f'>Код принят! Расшифровка успешна. Уровень доступа повышен до 10!</span>";
+                    
+                    const inputLine = document.querySelector('.input-line');
+                    terminalOutput.insertBefore(successMsg, inputLine);
+                    
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }
+            }
             
             // Обработчик ввода команд
             commandInput.addEventListener('keydown', function(e) {
@@ -602,6 +993,9 @@
                     if (baseCommand === 'lore') {
                         outputElement.className = 'lore-msg';
                         outputElement.innerHTML = `<i class="fas fa-archive"></i> ФРАГМЕНТ АРХИВА #${loreFragmentsFound}:\n${response}`;
+                    } else if (baseCommand === 'admin_lore') {
+                        outputElement.className = 'admin-msg';
+                        outputElement.innerHTML = `<i class="fas fa-lock"></i> АРХИВ ЧЕРНОГО УРОВНЯ:\n${response}`;
                     } else if (response.includes('ОШИБКА')) {
                         outputElement.className = 'error-msg';
                         outputElement.innerHTML = response;
