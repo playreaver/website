@@ -194,27 +194,6 @@
             font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
         }
 
-        .slogan-part {
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .hero.appear .slogan-part:nth-child(1) {
-            transition-delay: 0.2s; 
-        }
-        .hero.appear .slogan-part:nth-child(2) {
-            transition-delay: 0.4s;
-        }
-
-        .hero.appear h1::after {
-            opacity: 1;
-            transform: scaleX(1);
-        }
-        
-        .slogan-subtitle p {
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
-
         .hero p {
             font-size: 1.1rem;
             color: #555;
@@ -602,27 +581,12 @@
             }
             
             .hero h1 {
-                font-size: 3rem; 
-                font-weight: 900;
-                background: linear-gradient(45deg, #000, #333);
+                font-size: 4rem;
             }
             
             .hero p {
                 font-size: 1.4rem;
                 max-width: 700px;
-            }
-
-            .hero h1::after {
-                content: '';
-                display: block;
-                width: 100px;
-                height: 4px;
-                background: linear-gradient(to right, #ff8a00, #e52e71);
-                margin: 15px auto;
-                border-radius: 2px;
-                opacity: 0;
-                transform: scaleX(0);
-                transition: all 0.8s ease 0.6s;
             }
             
             .cta-button {
@@ -1083,7 +1047,6 @@
                 margin: 10px 0 20px;
             }
         }
-                
     </style>
 </head>
 <body>
@@ -1105,20 +1068,8 @@
 
     <main class="main-content">
         <section class="hero fade-in">
-            <div class="slogan-container">
-                <h1>
-                    <span class="slogan-part">НИЧЕГО ОБЫЧНОГО.</span>
-                    <span class="slogan-part">И ЭТО КРУТО</span>
-                </h1>
-                <div class="slogan-subtitle">
-                    <p>Создаем миры на <span class="tech-highlight">Unity</span> и <span class="tech-highlight">Roblox</span></p>
-                    <div class="pulse-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
+            <h1>НИЧЕГО ОБЫЧНОГО.<br>И ЭТО КРУТО</h1>
+            <p>Создаем игровые миры на Unity и Roblox</p>
         </section>
 
         <section class="developing-section">
