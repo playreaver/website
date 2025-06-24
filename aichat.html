@@ -40,6 +40,7 @@
             padding: 25px 30px;
             border-bottom: 1px solid rgba(80, 120, 200, 0.3);
             text-align: center;
+            position: relative;
         }
         
         h1 {
@@ -76,17 +77,55 @@
             font-weight: 500;
         }
         
+        .server-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: rgba(20, 30, 50, 0.6);
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-dot.connected {
+            background: #4ade80;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        
+        .status-dot.connecting {
+            background: #facc15;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status-dot.disconnected {
+            background: #f87171;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
         .content {
             padding: 30px;
         }
         
-        .api-key-section {
+        .prompt-section {
             background: rgba(20, 30, 50, 0.6);
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 30px;
             border: 1px solid rgba(80, 120, 200, 0.3);
-            position: relative;
         }
         
         .section-title {
@@ -110,42 +149,24 @@
             color: #a0c8ff;
         }
         
-        input, textarea {
+        textarea {
             width: 100%;
-            padding: 14px 50px 14px 15px;
+            padding: 14px 15px;
             background: rgba(15, 25, 45, 0.7);
             border: 1px solid rgba(80, 120, 200, 0.4);
             border-radius: 10px;
             color: #e6f7ff;
             font-size: 1rem;
             transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
-        }
-        
-        textarea {
             min-height: 180px;
             resize: vertical;
-            padding: 15px;
             line-height: 1.6;
         }
         
-        .toggle-key {
-            position: absolute;
-            right: 15px;
-            top: 40px;
-            color: #a0c8ff;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: color 0.2s;
-        }
-        
-        .toggle-key:hover {
-            color: #4facfe;
+        textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
         }
         
         .prompt-examples {
@@ -274,16 +295,6 @@
             letter-spacing: 1px;
         }
         
-        .token-info {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(0, 150, 255, 0.1);
-            border-radius: 10px;
-            font-size: 0.95rem;
-            color: #a0c8ff;
-            border: 1px dashed rgba(80, 120, 200, 0.4);
-        }
-        
         .response-text {
             animation: fadeIn 0.5s ease;
         }
@@ -291,26 +302,6 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-            font-size: 0.95rem;
-            color: #a0c8ff;
-        }
-        
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #4ade80;
-        }
-        
-        .status-dot.disconnected {
-            background: #f87171;
         }
         
         @media (max-width: 768px) {
@@ -348,9 +339,13 @@
             <h1><i class="fas fa-bolt"></i> Groq API Client</h1>
             <p class="subtitle">Superfast AI interactions powered by Llama 3</p>
             <div class="model-info">Model: meta-llama/llama-4-scout-17b-16e-instruct</div>
+            <div class="server-status">
+                <span class="status-dot connecting" id="status-dot"></span>
+                <span id="status-text">Checking server status...</span>
+            </div>
         </header>
         
-        <div class="content">    
+        <div class="content">
             <section class="prompt-section">
                 <h2 class="section-title"><i class="fas fa-comment-alt"></i> AI Prompt</h2>
                 <div class="input-group">
@@ -381,19 +376,18 @@
     
     <footer>
         <div class="logo">GROQ API CLIENT</div>
-        <p>Powered by Llama 3 • Secure API Key Handling • Real-time AI Responses</p>
+        <p>Powered by Llama 3 • Secure Connection • Real-time AI Responses</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const apiKeyInput = document.getElementById('api-key');
             const promptInput = document.getElementById('prompt');
             const submitBtn = document.getElementById('submit-btn');
             const responseDiv = document.getElementById('response');
             const exampleBtns = document.querySelectorAll('.example-btn');
-            const toggleKey = document.getElementById('toggle-key');
             const statusDot = document.getElementById('status-dot');
             const statusText = document.getElementById('status-text');
+            const serverUrl = "http://80.74.31.197:5001";
             
             // Set up example buttons
             exampleBtns.forEach(btn => {
@@ -402,26 +396,60 @@
                 });
             });
             
-            // Toggle API key visibility
-            toggleKey.addEventListener('click', function() {
-                const type = apiKeyInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                apiKeyInput.setAttribute('type', type);
+            // Check server status on load
+            checkServerStatus();
+            
+            // Periodically check server status
+            setInterval(checkServerStatus, 30000); // Every 30 seconds
+            
+            // Function to check server status
+            async function checkServerStatus() {
+                statusDot.className = 'status-dot connecting';
+                statusText.textContent = 'Checking server status...';
                 
-                // Toggle eye icon
-                const icon = this.querySelector('i');
-                icon.classList.toggle('fa-eye');
-                icon.classList.toggle('fa-eye-slash');
-            });
+                try {
+                    // First check the /status endpoint
+                    const statusResponse = await fetch(`${serverUrl}/status`);
+                    
+                    if (statusResponse.ok) {
+                        const data = await statusResponse.json();
+                        if (data.status === "OK") {
+                            updateStatus('connected', 'Server is online');
+                            return;
+                        }
+                    }
+                    
+                    // If /status fails, try /chat endpoint as fallback
+                    const chatResponse = await fetch(`${serverUrl}/chat`, { method: 'GET' });
+                    
+                    if (chatResponse.status === 405) {
+                        updateStatus('connected', 'Server is online');
+                    } else {
+                        updateStatus('disconnected', 'Server is offline');
+                    }
+                } catch (error) {
+                    updateStatus('disconnected', 'Server is offline');
+                }
+            }
+            
+            // Update UI with server status
+            function updateStatus(status, message) {
+                statusDot.className = `status-dot ${status}`;
+                statusText.textContent = message;
+                
+                // Visual feedback
+                if (status === 'connected') {
+                    statusDot.style.backgroundColor = '#4ade80';
+                    statusDot.style.boxShadow = '0 0 10px rgba(74, 222, 128, 0.5)';
+                } else {
+                    statusDot.style.backgroundColor = '#f87171';
+                    statusDot.style.boxShadow = 'none';
+                }
+            }
             
             // Handle API request
             submitBtn.addEventListener('click', async function() {
-                const apiKey = apiKeyInput.value.trim();
                 const prompt = promptInput.value.trim();
-                
-                if (!apiKey) {
-                    showError('Please enter your Groq API key');
-                    return;
-                }
                 
                 if (!prompt) {
                     showError('Please enter a prompt');
@@ -431,8 +459,6 @@
                 // Disable button and show loading
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-                statusDot.classList.add('disconnected');
-                statusText.textContent = 'Processing request...';
                 
                 responseDiv.innerHTML = `
                     <div class="loading">
@@ -442,12 +468,11 @@
                 `;
                 
                 try {
-                    const response = await fetch("http://80.74.31.197:5001/chat", {
+                    const response = await fetch(`${serverUrl}/chat`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ prompt: prompt })
                     });
-
                     
                     if (!response.ok) {
                         const errorData = await response.json();
@@ -460,23 +485,14 @@
                     // Format and display the result
                     responseDiv.innerHTML = `<div class="response-text">${result}</div>`;
                     
-                    // Update status
-                    statusDot.classList.remove('disconnected');
-                    statusText.textContent = 'Request completed successfully';
-                    
                 } catch (error) {
                     showError(`Error: ${error.message}`);
-                    statusText.textContent = 'Error occurred';
+                    // Re-check server status on error
+                    checkServerStatus();
                 } finally {
                     // Re-enable button
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send to Groq API';
-                    
-                    // Reset status after delay
-                    setTimeout(() => {
-                        statusDot.classList.remove('disconnected');
-                        statusText.textContent = 'Connected to Groq API';
-                    }, 3000);
                 }
             });
             
