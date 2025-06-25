@@ -1047,6 +1047,151 @@
                 margin: 10px 0 20px;
             }
         }
+        
+        .software-section {
+            max-width: 100%;
+            margin: 60px auto;
+            padding: 0 10px;
+        }
+        
+        .software-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .software-card {
+            background: linear-gradient(145deg, #f0f0f0, #e6e6e6);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.08),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.4s ease;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .software-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .software-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #d0d0d0, #c5c5c5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        .software-card:hover .software-icon {
+            transform: rotate(15deg) scale(1.1);
+            background: linear-gradient(145deg, #c5c5c5, #b0b0b0);
+        }
+        
+        .software-icon i {
+            font-size: 36px;
+            color: #555;
+            transition: transform 0.3s ease;
+        }
+        
+        .software-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .software-description {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-width: 300px;
+        }
+        
+        .software-button {
+            display: inline-block;
+            background: linear-gradient(145deg, #e0e0e0, #c5c5c5);
+            color: #333;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .software-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .software-button:active {
+            transform: translateY(1px);
+        }
+        
+        .software-button.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: linear-gradient(145deg, #d0d0d0, #b5b5b5);
+        }
+        
+        .software-button.disabled:hover {
+            transform: none;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 5px rgba(255, 255, 255, 0.8);
+        }
+        
+        @media (min-width: 769px) {
+            .software-section {
+                max-width: 1200px;
+                margin: 80px auto;
+                padding: 0 20px;
+            }
+            
+            .software-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            
+            .software-card {
+                padding: 40px 30px;
+            }
+            
+            .software-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .software-icon i {
+                font-size: 42px;
+            }
+            
+            .software-title {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1094,6 +1239,29 @@
                         </div>
                         <span class="progress-text">23% завершено</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="software-section fade-in">
+            <h2 class="section-title">НАШ СОФТ</h2>
+            <div class="software-grid">
+                <div class="software-card">
+                    <div class="software-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="software-title">ReaverVPN</h3>
+                    <p class="software-description">Наш VPN-сервис для безопасного и анонимного серфинга в интернете</p>
+                    <a class="software-button disabled">Временно недоступно для скачивания</a>
+                </div>
+                
+                <div class="software-card">
+                    <div class="software-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="software-title">R.AI Client</h3>
+                    <p class="software-description">Клиент для взаимодействия с искусственным интеллектом llama-4</p>
+                    <a href="https://example.com/ai-client" class="software-button">Перейти</a>
                 </div>
             </div>
         </section>
