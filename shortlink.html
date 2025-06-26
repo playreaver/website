@@ -720,34 +720,40 @@
                 shortenBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Обработка...';
                 shortenBtn.disabled = true;
                 
-                try {
-                    // Вызов API для сокращения ссылки
-                    const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(originalUrl)}`);
-                    const data = await response.json();
-                    
-                    if (data.ok) {
-                        const shortUrl = data.result.full_short_link;
-                        
-                        // Отображение результата
-                        shortUrlInput.value = shortUrl;
-                        resultContainer.classList.add('active');
-                        
-                        // Сохраняем в историю
-                        addToHistory(originalUrl, shortUrl);
-                        
-                        // Прокрутка к результату
-                        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    } else {
-                        throw new Error(data.error || 'Ошибка при сокращении ссылки');
-                    }
-                } catch (error) {
-                    showError(urlInput, error.message);
-                } finally {
-                    // Восстановление кнопки
-                    shortenBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Сократить';
-                    shortenBtn.disabled = false;
+            try {
+                // Вызов API для сокращения ссылки через cleanuri.com
+                const response = await fetch("https://cleanuri.com/api/v1/shorten", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `url=${encodeURIComponent(originalUrl)}`
+                });
+                const data = await response.json();
+            
+                if (data.result_url) {
+                    const shortUrl = data.result_url;
+            
+                    // Отображение результата
+                    shortUrlInput.value = shortUrl;
+                    resultContainer.classList.add('active');
+            
+                    // Сохраняем в историю
+                    addToHistory(originalUrl, shortUrl);
+            
+                    // Прокрутка к результату
+                    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error('Ошибка при сокращении ссылки');
                 }
-            });
+            } catch (error) {
+                showError(urlInput, error.message);
+            } finally {
+                // Восстановление кнопки
+                shortenBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Сократить';
+                shortenBtn.disabled = false;
+            }
+
             
             // Копирование ссылки
             copyBtn.addEventListener('click', function() {
