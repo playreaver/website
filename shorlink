@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShortLink - Быстрое сокращение ссылок</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c63ff;
+            --primary-dark: #5651d8;
+            --secondary: #ff6584;
+            --dark: #2a2a3c;
+            --light: #f8f9ff;
+            --gray: #a0a0b0;
+            --success: #4ade80;
+            --error: #f87171;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6e9ff 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 101, 132, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* Shortener Box */
+        .shortener-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(108, 99, 255, 0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .shortener-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 18px 25px;
+            border: 2px solid #e4e7f1;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: var(--gray);
+        }
+
+        .input-group input.error {
+            border-color: var(--error);
+        }
+
+        .btn {
+            padding: 18px 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn i {
+            font-size: 18px;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #ff5073;
+        }
+
+        .result-container {
+            display: none;
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .result-container.active {
+            display: block;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-title i {
+            color: var(--primary);
+        }
+
+        .result-box {
+            display: flex;
+            gap: 15px;
+        }
+
+        .result-box input {
+            flex: 1;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e4e7f1;
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            padding: 12px 25px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: #ff5073;
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+            width: 100%;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(108, 99, 255, 0.2);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--primary);
+            font-size: 32px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Statistics */
+        .stats {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 80px 0;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .stats h2 {
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--dark);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .stat-item {
+            min-width: 200px;
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 0 5px 10px rgba(108, 99, 255, 0.2);
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: var(--gray);
+        }
+
+        /* History */
+        .history {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .history h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history h2 i {
+            color: var(--primary);
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #e4e7f1;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-original {
+            flex: 1;
+            color: var(--gray);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        .history-short {
+            color: var(--primary);
+            font-weight: 500;
+            margin-right: 20px;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .history-actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .history-actions button:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            padding: 40px 0;
+            text-align: center;
+            color: var(--gray);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .result-box {
+                flex-direction: column;
+            }
+
+            .history-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            nav {
+                display: none;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .shortener-box {
+                padding: 30px 20px;
+            }
+
+            .stats {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="#" class="logo">
+                <i class="fas fa-link"></i>
+                <span>ShortLink</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#features">Возможности</a></li>
+                    <li><a href="#history">История</a></li>
+                    <li><a href="#statistics">Статистика</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero" id="home">
+            <h1>Сокращайте, делитесь, отслеживайте</h1>
+            <p>Создавайте короткие ссылки мгновенно, делитесь ими где угодно и отслеживайте клики по вашим ссылкам в реальном времени.</p>
+            
+            <div class="shortener-box">
+                <div class="input-group">
+                    <input type="url" id="url-input" placeholder="Введите ссылку для сокращения..." autocomplete="off">
+                    <button class="btn" id="shorten-btn">
+                        <i class="fas fa-compress-alt"></i>
+                        Сократить
+                    </button>
+                </div>
+                
+                <div class="result-container" id="result-container">
+                    <div class="result-title">
+                        <i class="fas fa-check-circle"></i>
+                        Ваша сокращенная ссылка:
+                    </div>
+                    <div class="result-box">
+                        <input type="text" id="short-url" readonly>
+                        <button class="copy-btn" id="copy-btn">
+                            <i class="fas fa-copy"></i>
+                            Копировать
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Мгновенное сокращение</h3>
+                <p>Сокращайте любые ссылки за считанные секунды. Просто вставьте длинный URL и получите компактную ссылку.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Аналитика в реальном времени</h3>
+                <p>Отслеживайте количество кликов, географию пользователей и другие метрики для ваших ссылок.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Безопасность и приватность</h3>
+                <p>Все ссылки шифруются и защищаются. Вы можете установить пароль для доступа к статистике.</p>
+            </div>
+        </section>
+
+        <section class="history" id="history">
+            <h2><i class="fas fa-history"></i> История сокращений</h2>
+            <div class="history-list" id="history-list">
+                <!-- История будет заполняться динамически -->
+            </div>
+        </section>
+
+        <section class="stats" id="statistics">
+            <h2>Наши достижения</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Сокращенных ссылок</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">500K+</div>
+                    <div class="stat-label">Активных пользователей</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Время безотказной работы</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Поддержка пользователей</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p>&copy; 2023 ShortLink. Все права защищены.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const shortenBtn = document.getElementById('shorten-btn');
+            const urlInput = document.getElementById('url-input');
+            const resultContainer = document.getElementById('result-container');
+            const shortUrlInput = document.getElementById('short-url');
+            const copyBtn = document.getElementById('copy-btn');
+            const historyList = document.getElementById('history-list');
+            
+            // Загрузка истории из localStorage
+            let history = JSON.parse(localStorage.getItem('shortenHistory')) || [];
+            renderHistory();
+            
+            // Обработка сокращения ссылки с использованием API
+            shortenBtn.addEventListener('click', async function() {
+                const originalUrl = urlInput.value.trim();
+                
+                // Валидация URL
+                if (!isValidUrl(originalUrl)) {
+                    showError(urlInput, "Пожалуйста, введите корректный URL");
+                    return;
+                }
+                
+                // Анимация загрузки
+                shortenBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Обработка...';
+                shortenBtn.disabled = true;
+                
+                try {
+                    // Вызов API для сокращения ссылки
+                    const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(originalUrl)}`);
+                    const data = await response.json();
+                    
+                    if (data.ok) {
+                        const shortUrl = data.result.full_short_link;
+                        
+                        // Отображение результата
+                        shortUrlInput.value = shortUrl;
+                        resultContainer.classList.add('active');
+                        
+                        // Сохраняем в историю
+                        addToHistory(originalUrl, shortUrl);
+                        
+                        // Прокрутка к результату
+                        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        throw new Error(data.error || 'Ошибка при сокращении ссылки');
+                    }
+                } catch (error) {
+                    showError(urlInput, error.message);
+                } finally {
+                    // Восстановление кнопки
+                    shortenBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Сократить';
+                    shortenBtn.disabled = false;
+                }
+            });
+            
+            // Копирование ссылки
+            copyBtn.addEventListener('click', function() {
+                shortUrlInput.select();
+                document.execCommand('copy');
+                
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                copyBtn.classList.add('copied');
+                
+                // Анимация успешного копирования
+                copyBtn.animate([
+                    { transform: 'scale(1)' },
+                    { transform: 'scale(1.1)' },
+                    { transform: 'scale(1)' }
+                ], {
+                    duration: 300,
+                    iterations: 1
+                });
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Копировать';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+            
+            // Функция валидации URL
+            function isValidUrl(url) {
+                try {
+                    new URL(url);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            
+            // Показать ошибку
+            function showError(input, message) {
+                input.classList.add('error');
+                input.placeholder = message;
+                
+                // Анимация ошибки
+                input.animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-5px)' },
+                    { transform: 'translateX(5px)' },
+                    { transform: 'translateX(0)' }
+                ], {
+                    duration: 300,
+                    iterations: 1
+                });
+                
+                setTimeout(() => {
+                    input.classList.remove('error');
+                    input.placeholder = "Введите ссылку для сокращения...";
+                }, 3000);
+            }
+            
+            // Добавить в историю
+            function addToHistory(original, short) {
+                // Сохраняем только последние 10 записей
+                history.unshift({ original, short, timestamp: new Date() });
+                if (history.length > 10) history.pop();
+                
+                // Сохраняем в localStorage
+                localStorage.setItem('shortenHistory', JSON.stringify(history));
+                
+                // Обновляем отображение
+                renderHistory();
+            }
+            
+            // Отрисовать историю
+            function renderHistory() {
+                if (history.length === 0) {
+                    historyList.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 20px;">История сокращений пуста</p>';
+                    return;
+                }
+                
+                historyList.innerHTML = '';
+                history.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const date = new Date(item.timestamp).toLocaleTimeString();
+                    
+                    historyItem.innerHTML = `
+                        <div class="history-original" title="${item.original}">${truncateText(item.original, 50)}</div>
+                        <div class="history-short">${item.short}</div>
+                        <div class="history-actions">
+                            <button class="copy-history" data-url="${item.short}" title="Копировать">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="delete-history" title="Удалить">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    historyList.appendChild(historyItem);
+                });
+                
+                // Добавляем обработчики для кнопок истории
+                document.querySelectorAll('.copy-history').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const url = this.getAttribute('data-url');
+                        navigator.clipboard.writeText(url);
+                        
+                        // Анимация копирования
+                        const icon = this.querySelector('i');
+                        icon.className = 'fas fa-check';
+                        setTimeout(() => {
+                            icon.className = 'fas fa-copy';
+                        }, 2000);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-history').forEach((button, index) => {
+                    button.addEventListener('click', function() {
+                        history.splice(index, 1);
+                        localStorage.setItem('shortenHistory', JSON.stringify(history));
+                        renderHistory();
+                    });
+                });
+            }
+            
+            // Усечение длинного текста
+            function truncateText(text, maxLength) {
+                return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+            }
+            
+            // Анимация элементов при загрузке
+            setTimeout(() => {
+                document.querySelectorAll('.feature-card, .stats').forEach((el, index) => {
+                    el.style.animation = `fadeIn 0.5s ease ${index * 0.2}s forwards`;
+                    el.style.opacity = 0;
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
