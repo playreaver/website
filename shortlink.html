@@ -24,8 +24,8 @@
             --success: #4ade80;
             --error: #f87171;
             --card-bg: rgba(255, 255, 255, 0.95);
-            --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #e6e9ff 100%);
-            --bg-image: 
+            --bg-combined: 
+                linear-gradient(135deg, #f0f4ff 0%, #e6e9ff 100%),
                 radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.05) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(255, 101, 132, 0.05) 0%, transparent 20%);
         }
@@ -38,22 +38,21 @@
             --light: #2a2a3c;
             --gray: #8a8a9c;
             --card-bg: rgba(42, 42, 60, 0.95);
-            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            --bg-image: 
+            --bg-combined: 
+                linear-gradient(135deg, #1a1a2e 0%, #16213e 100%),
                 radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.05) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(255, 101, 132, 0.05) 0%, transparent 20%);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--bg-gradient);
+            background: var(--bg-combined);
             min-height: 100vh;
             color: var(--dark);
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-image: var(--bg-image);
         }
 
         .container {
@@ -714,6 +713,44 @@
         const historyList = document.getElementById('history-list');
         const themeToggle = document.querySelector('.theme-toggle');
         
+        // ИНИЦИАЛИЗАЦИЯ ТЕМЫ ПРИ ЗАГРУЗКЕ
+        function initTheme() {
+            try {
+                // Проверяем сохраненную тему
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                
+                // Обновляем иконку
+                const themeIcon = themeToggle.querySelector('i');
+                themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            } catch (e) {
+                console.error('Ошибка при загрузке темы:', e);
+            }
+        }
+        
+        // ВЫЗЫВАЕМ ИНИЦИАЛИЗАЦИЮ СРАЗУ
+        initTheme();
+        
+        // ОБРАБОТЧИК ПЕРЕКЛЮЧЕНИЯ ТЕМЫ
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            // Устанавливаем новую тему
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // Сохраняем в localStorage
+            try {
+                localStorage.setItem('theme', newTheme);
+            } catch (e) {
+                console.error('Ошибка при сохранении темы:', e);
+            }
+            
+            // Обновляем иконку
+            const themeIcon = themeToggle.querySelector('i');
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
         // Генерация уникальных ID для ссылок
         function generateShortId() {
             return Math.random().toString(36).substring(2, 10);
@@ -964,30 +1001,6 @@
         }
         
         handleRedirect();
-        
-        // Темная тема
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            
-            // Обновляем иконку
-            const themeIcon = themeToggle.querySelector('i');
-            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
-        
-        themeToggle.addEventListener('click', function() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            // Меняем иконку
-            const themeIcon = themeToggle.querySelector('i');
-            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        });
-        
-        initTheme();
     });
     </script>
 </body>
