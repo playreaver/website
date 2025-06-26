@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShortLink - Быстрое сокращение ссылок</title>
+    <title>ShortLink - Отслеживание переходов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -452,6 +452,22 @@
             display: flex;
             gap: 10px;
         }
+        
+        .history-clicks {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 12px;
+            padding: 4px 10px;
+            font-size: 14px;
+            color: var(--primary);
+            min-width: 80px;
+        }
+        
+        .history-clicks i {
+            font-size: 14px;
+        }
 
         .history-actions button {
             background: none;
@@ -557,6 +573,11 @@
                 flex-direction: column;
                 gap: 10px;
             }
+            
+            .history-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
         }
 
         @media (max-width: 576px) {
@@ -651,10 +672,10 @@
             
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-history"></i>
+                    <i class="fas fa-chart-line"></i>
                 </div>
-                <h3>Отсутствие аналитики и аккаунтов</h3>
-                <p>is.gd не предоставляет статистику переходов и не требует регистрации — это максимально легкий сервис для сокращения ссылок.</p>
+                <h3>Статистика переходов</h3>
+                <p>Отслеживайте количество переходов по каждой вашей сокращенной ссылке в реальном времени.</p>
             </div>
             
             <div class="feature-card">
@@ -675,16 +696,21 @@
         </section>
 
         <section class="stats" id="statistics">
-            <h2>Наши достижения</h2>
+            <h2>Статистика переходов</h2>
             <div class="stats-container">
                 <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Время безотказной работы</div>
+                    <div class="stat-number" id="total-clicks">0</div>
+                    <div class="stat-label">Всего переходов</div>
                 </div>
                 
                 <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Поддержка пользователей</div>
+                    <div class="stat-number" id="unique-clicks">0</div>
+                    <div class="stat-label">Уникальных посетителей</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number" id="top-link">-</div>
+                    <div class="stat-label">Самая популярная ссылка</div>
                 </div>
             </div>
         </section>
@@ -708,11 +734,148 @@
         const shortUrlInput = document.getElementById('short-url');
         const copyBtn = document.getElementById('copy-btn');
         const historyList = document.getElementById('history-list');
-    
+        const totalClicksEl = document.getElementById('total-clicks');
+        const uniqueClicksEl = document.getElementById('unique-clicks');
+        const topLinkEl = document.getElementById('top-link');
+        
+        // Генерация уникальных ID для ссылок
+        function generateShortId() {
+            return Math.random().toString(36).substring(2, 10);
+        }
+        
+        // Генерация уникального ID посетителя
+        function getVisitorId() {
+            let visitorId = localStorage.getItem('shortlink_visitor_id');
+            if (!visitorId) {
+                visitorId = 'visitor_' + Math.random().toString(36).substring(2, 9);
+                localStorage.setItem('shortlink_visitor_id', visitorId);
+            }
+            return visitorId;
+        }
+
         // Загрузка истории из localStorage
         let history = JSON.parse(localStorage.getItem('shortenHistory')) || [];
-        renderHistory();
+        let stats = JSON.parse(localStorage.getItem('linkStats')) || {
+            totalClicks: 0,
+            uniqueVisitors: {},
+            links: {}
+        };
+        
+        // Обновление статистики
+        function updateStats() {
+            totalClicksEl.textContent = stats.totalClicks;
+            uniqueClicksEl.textContent = Object.keys(stats.uniqueVisitors).length;
+            
+            // Найдем самую популярную ссылку
+            let topLink = null;
+            let maxClicks = 0;
+            
+            for (const linkId in stats.links) {
+                if (stats.links[linkId].clicks > maxClicks) {
+                    maxClicks = stats.links[linkId].clicks;
+                    topLink = stats.links[linkId].shortUrl;
+                }
+            }
+            
+            topLinkEl.textContent = topLink ? topLink : '-';
+            
+            localStorage.setItem('linkStats', JSON.stringify(stats));
+        }
+        
+        updateStats();
+
+        // Рендеринг истории
+        function renderHistory() {
+            if (history.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 20px;">История сокращений пуста</p>';
+                return;
+            }
     
+            historyList.innerHTML = '';
+            history.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                // Получаем статистику для этой ссылки
+                const linkStats = stats.links[item.id] || { clicks: 0 };
+                
+                historyItem.innerHTML = `
+                    <div class="history-original" title="${item.original}">${truncateText(item.original, 50)}</div>
+                    <div class="history-short" title="Сокращенная ссылка">${item.short}</div>
+                    <div class="history-clicks">
+                        <i class="fas fa-mouse-pointer"></i>
+                        ${linkStats.clicks || 0}
+                    </div>
+                    <div class="history-actions">
+                        <button class="copy-history" data-url="${item.short}" title="Копировать">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="view-stats" data-id="${item.id}" title="Подробная статистика">
+                            <i class="fas fa-chart-bar"></i>
+                        </button>
+                        <button class="delete-history" data-index="${index}" title="Удалить">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+    
+                historyList.appendChild(historyItem);
+            });
+    
+            document.querySelectorAll('.copy-history').forEach(button => {
+                button.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    navigator.clipboard.writeText(url);
+    
+                    const icon = this.querySelector('i');
+                    icon.className = 'fas fa-check';
+                    setTimeout(() => {
+                        icon.className = 'fas fa-copy';
+                    }, 2000);
+                });
+            });
+            
+            document.querySelectorAll('.view-stats').forEach(button => {
+                button.addEventListener('click', function() {
+                    const linkId = this.getAttribute('data-id');
+                    showLinkStats(linkId);
+                });
+            });
+    
+            document.querySelectorAll('.delete-history').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = +this.getAttribute('data-index');
+                    const linkId = history[index].id;
+                    
+                    // Удаляем из истории
+                    history.splice(index, 1);
+                    
+                    // Удаляем статистику
+                    if (stats.links[linkId]) {
+                        stats.totalClicks -= stats.links[linkId].clicks;
+                        delete stats.links[linkId];
+                    }
+                    
+                    localStorage.setItem('shortenHistory', JSON.stringify(history));
+                    localStorage.setItem('linkStats', JSON.stringify(stats));
+                    renderHistory();
+                    updateStats();
+                });
+            });
+        }
+        
+        // Показать статистику для конкретной ссылки
+        function showLinkStats(linkId) {
+            const linkData = history.find(item => item.id === linkId);
+            const linkStats = stats.links[linkId] || { clicks: 0 };
+            
+            if (!linkData) return;
+            
+            alert(`Статистика для ссылки:\n\nОригинальная: ${linkData.original}\nСокращенная: ${linkData.short}\n\nПереходов: ${linkStats.clicks || 0}`);
+        }
+        
+        renderHistory();
+
         shortenBtn.addEventListener('click', async function() {
             const originalUrl = urlInput.value.trim();
     
@@ -725,8 +888,14 @@
             shortenBtn.disabled = true;
     
             try {
+                // Генерируем уникальный ID для ссылки
+                const linkId = generateShortId();
+                
+                // Формируем сокращенную ссылку с системой отслеживания
+                const trackingUrl = `${window.location.origin}${window.location.pathname}?redirect=${encodeURIComponent(originalUrl)}&id=${linkId}`;
+                
                 // Запрос к is.gd API (GET)
-                const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(originalUrl)}`;
+                const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(trackingUrl)}`;
                 const response = await fetch(apiUrl);
                 const data = await response.json();
     
@@ -736,7 +905,30 @@
                     shortUrlInput.value = shortUrl;
                     resultContainer.classList.add('active');
     
-                    addToHistory(originalUrl, shortUrl);
+                    // Сохраняем в историю
+                    const historyItem = {
+                        id: linkId,
+                        original: originalUrl,
+                        short: shortUrl,
+                        timestamp: new Date()
+                    };
+                    
+                    history.unshift(historyItem);
+                    if (history.length > 10) history.pop();
+                    
+                    // Инициализируем статистику
+                    if (!stats.links[linkId]) {
+                        stats.links[linkId] = {
+                            clicks: 0,
+                            shortUrl: shortUrl,
+                            originalUrl: originalUrl
+                        };
+                    }
+                    
+                    localStorage.setItem('shortenHistory', JSON.stringify(history));
+                    localStorage.setItem('linkStats', JSON.stringify(stats));
+                    renderHistory();
+                    
                     resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
                     throw new Error('Ошибка при сокращении ссылки');
@@ -800,64 +992,6 @@
             }, 3000);
         }
     
-        function addToHistory(original, short) {
-            history.unshift({ original, short, timestamp: new Date() });
-            if (history.length > 10) history.pop();
-    
-            localStorage.setItem('shortenHistory', JSON.stringify(history));
-            renderHistory();
-        }
-    
-        function renderHistory() {
-            if (history.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 20px;">История сокращений пуста</p>';
-                return;
-            }
-    
-            historyList.innerHTML = '';
-            history.forEach((item, index) => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-    
-                historyItem.innerHTML = `
-                    <div class="history-original" title="${item.original}">${truncateText(item.original, 50)}</div>
-                    <div class="history-short">${item.short}</div>
-                    <div class="history-actions">
-                        <button class="copy-history" data-url="${item.short}" title="Копировать">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                        <button class="delete-history" data-index="${index}" title="Удалить">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-    
-                historyList.appendChild(historyItem);
-            });
-    
-            document.querySelectorAll('.copy-history').forEach(button => {
-                button.addEventListener('click', function() {
-                    const url = this.getAttribute('data-url');
-                    navigator.clipboard.writeText(url);
-    
-                    const icon = this.querySelector('i');
-                    icon.className = 'fas fa-check';
-                    setTimeout(() => {
-                        icon.className = 'fas fa-copy';
-                    }, 2000);
-                });
-            });
-    
-            document.querySelectorAll('.delete-history').forEach(button => {
-                button.addEventListener('click', function() {
-                    const index = +this.getAttribute('data-index');
-                    history.splice(index, 1);
-                    localStorage.setItem('shortenHistory', JSON.stringify(history));
-                    renderHistory();
-                });
-            });
-        }
-    
         function truncateText(text, maxLength) {
             return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
         }
@@ -868,10 +1002,38 @@
                 el.style.opacity = 0;
             });
         }, 500);
+        
+        // Обработка редиректа по сокращенной ссылке
+        function handleRedirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectUrl = urlParams.get('redirect');
+            const linkId = urlParams.get('id');
+            
+            if (redirectUrl && linkId) {
+                // Регистрируем переход
+                const visitorId = getVisitorId();
+                
+                if (!stats.links[linkId]) {
+                    stats.links[linkId] = {
+                        clicks: 0,
+                        shortUrl: window.location.href.split('?')[0],
+                        originalUrl: redirectUrl
+                    };
+                }
+                
+                stats.links[linkId].clicks++;
+                stats.totalClicks++;
+                stats.uniqueVisitors[visitorId] = true;
+                
+                localStorage.setItem('linkStats', JSON.stringify(stats));
+                
+                // Перенаправляем на оригинальный URL
+                window.location.href = redirectUrl;
+            }
+        }
+        
+        handleRedirect();
     });
     </script>
-
-
-
 </body>
 </html>
