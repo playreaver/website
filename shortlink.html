@@ -995,7 +995,7 @@
             const redirectUrl = urlParams.get('redirect');
             const linkId = urlParams.get('id');
             
-            if (redirectUrl && linkId) 
+            if (redirectUrl && linkId) { 
                 const visitorId = getVisitorId();
                 
                 if (!stats.links[linkId]) {
