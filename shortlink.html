@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShortLink - Отслеживание переходов</title>
+    <title>Reaver.ShortLink - Делайте ссылки короче</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
 
         :root {
@@ -23,20 +24,36 @@
             --success: #4ade80;
             --error: #f87171;
             --card-bg: rgba(255, 255, 255, 0.95);
+            --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #e6e9ff 100%);
+            --bg-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 101, 132, 0.05) 0%, transparent 20%);
+        }
+
+        [data-theme="dark"] {
+            --primary: #7d76ff;
+            --primary-dark: #6c63ff;
+            --secondary: #ff7a96;
+            --dark: #f8f9ff;
+            --light: #2a2a3c;
+            --gray: #8a8a9c;
+            --card-bg: rgba(42, 42, 60, 0.95);
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 101, 132, 0.05) 0%, transparent 20%);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f0f4ff 0%, #e6e9ff 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
             color: var(--dark);
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 101, 132, 0.05) 0%, transparent 20%);
+            background-image: var(--bg-image);
         }
 
         .container {
@@ -73,6 +90,7 @@
             display: flex;
             gap: 30px;
             list-style: none;
+            align-items: center;
         }
 
         nav a {
@@ -100,6 +118,23 @@
 
         nav a:hover::after {
             width: 100%;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            background: var(--card-bg);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* Hero Section */
@@ -141,7 +176,7 @@
             overflow: hidden;
             animation: slideUp 0.8s ease;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .shortener-box::before {
@@ -163,12 +198,13 @@
         .input-group input {
             flex: 1;
             padding: 18px 25px;
-            border: 2px solid #e4e7f1;
+            border: 2px solid var(--gray);
             border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s;
             outline: none;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--dark);
         }
 
         .input-group input:focus {
@@ -225,7 +261,7 @@
 
         .result-container {
             display: none;
-            background: var(--light);
+            background: rgba(108, 99, 255, 0.1);
             border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
@@ -259,11 +295,11 @@
         .result-box input {
             flex: 1;
             padding: 12px 20px;
-            background: white;
-            border: 2px solid #e4e7f1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(108, 99, 255, 0.2);
             border-radius: 8px;
             font-size: 16px;
-            color: var(--primary-dark);
+            color: var(--primary);
             font-weight: 500;
         }
 
@@ -305,7 +341,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .feature-card:hover {
@@ -344,54 +380,6 @@
             line-height: 1.6;
         }
 
-        /* Statistics */
-        .stats {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            margin: 80px 0;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .stats h2 {
-            font-size: 36px;
-            margin-bottom: 60px;
-            color: var(--dark);
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .stat-item {
-            min-width: 200px;
-            transition: transform 0.3s;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-            text-shadow: 0 5px 10px rgba(108, 99, 255, 0.2);
-        }
-
-        .stat-label {
-            font-size: 18px;
-            color: var(--gray);
-        }
-
         /* History */
         .history {
             background: var(--card-bg);
@@ -401,7 +389,7 @@
             margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .history h2 {
@@ -426,7 +414,15 @@
             display: flex;
             justify-content: space-between;
             padding: 15px 0;
-            border-bottom: 1px solid #e4e7f1;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s;
+            transition: all 0.3s;
+        }
+
+        .history-item:hover {
+            background: rgba(108, 99, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
         }
 
         .history-item:last-child {
@@ -487,7 +483,7 @@
             padding: 40px 0;
             text-align: center;
             color: var(--gray);
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: auto;
         }
 
@@ -551,6 +547,11 @@
             100% { transform: scale(1); }
         }
 
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -592,10 +593,6 @@
             .shortener-box {
                 padding: 30px 20px;
             }
-
-            .stats {
-                padding: 40px 20px;
-            }
         }
     </style>
 </head>
@@ -611,7 +608,9 @@
                     <li><a href="#home">Главная</a></li>
                     <li><a href="#features">Возможности</a></li>
                     <li><a href="#history">История</a></li>
-                    <li><a href="#statistics">Статистика</a></li>
+                    <li class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -687,31 +686,10 @@
             </div>
         </section>
 
-
         <section class="history" id="history">
             <h2><i class="fas fa-history"></i> История сокращений</h2>
             <div class="history-list" id="history-list">
                 <!-- История будет заполняться динамически -->
-            </div>
-        </section>
-
-        <section class="stats" id="statistics">
-            <h2>Статистика переходов</h2>
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-number" id="total-clicks">0</div>
-                    <div class="stat-label">Всего переходов</div>
-                </div>
-                
-                <div class="stat-item">
-                    <div class="stat-number" id="unique-clicks">0</div>
-                    <div class="stat-label">Уникальных посетителей</div>
-                </div>
-                
-                <div class="stat-item">
-                    <div class="stat-number" id="top-link">-</div>
-                    <div class="stat-label">Самая популярная ссылка</div>
-                </div>
             </div>
         </section>
     </div>
@@ -734,9 +712,7 @@
         const shortUrlInput = document.getElementById('short-url');
         const copyBtn = document.getElementById('copy-btn');
         const historyList = document.getElementById('history-list');
-        const totalClicksEl = document.getElementById('total-clicks');
-        const uniqueClicksEl = document.getElementById('unique-clicks');
-        const topLinkEl = document.getElementById('top-link');
+        const themeToggle = document.querySelector('.theme-toggle');
         
         // Генерация уникальных ID для ссылок
         function generateShortId() {
@@ -755,35 +731,8 @@
 
         // Загрузка истории из localStorage
         let history = JSON.parse(localStorage.getItem('shortenHistory')) || [];
-        let stats = JSON.parse(localStorage.getItem('linkStats')) || {
-            totalClicks: 0,
-            uniqueVisitors: {},
-            links: {}
-        };
+        let stats = JSON.parse(localStorage.getItem('linkStats')) || { links: {} };
         
-        // Обновление статистики
-        function updateStats() {
-            totalClicksEl.textContent = stats.totalClicks;
-            uniqueClicksEl.textContent = Object.keys(stats.uniqueVisitors).length;
-            
-            // Найдем самую популярную ссылку
-            let topLink = null;
-            let maxClicks = 0;
-            
-            for (const linkId in stats.links) {
-                if (stats.links[linkId].clicks > maxClicks) {
-                    maxClicks = stats.links[linkId].clicks;
-                    topLink = stats.links[linkId].shortUrl;
-                }
-            }
-            
-            topLinkEl.textContent = topLink ? topLink : '-';
-            
-            localStorage.setItem('linkStats', JSON.stringify(stats));
-        }
-        
-        updateStats();
-
         // Рендеринг истории
         function renderHistory() {
             if (history.length === 0) {
@@ -810,9 +759,6 @@
                         <button class="copy-history" data-url="${item.short}" title="Копировать">
                             <i class="fas fa-copy"></i>
                         </button>
-                        <button class="view-stats" data-id="${item.id}" title="Подробная статистика">
-                            <i class="fas fa-chart-bar"></i>
-                        </button>
                         <button class="delete-history" data-index="${index}" title="Удалить">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -834,44 +780,31 @@
                     }, 2000);
                 });
             });
-            
-            document.querySelectorAll('.view-stats').forEach(button => {
-                button.addEventListener('click', function() {
-                    const linkId = this.getAttribute('data-id');
-                    showLinkStats(linkId);
-                });
-            });
     
             document.querySelectorAll('.delete-history').forEach(button => {
                 button.addEventListener('click', function() {
                     const index = +this.getAttribute('data-index');
                     const linkId = history[index].id;
                     
-                    // Удаляем из истории
-                    history.splice(index, 1);
+                    // Анимация удаления
+                    const historyItem = this.closest('.history-item');
+                    historyItem.style.animation = 'fadeOut 0.3s ease forwards';
                     
-                    // Удаляем статистику
-                    if (stats.links[linkId]) {
-                        stats.totalClicks -= stats.links[linkId].clicks;
-                        delete stats.links[linkId];
-                    }
-                    
-                    localStorage.setItem('shortenHistory', JSON.stringify(history));
-                    localStorage.setItem('linkStats', JSON.stringify(stats));
-                    renderHistory();
-                    updateStats();
+                    setTimeout(() => {
+                        // Удаляем из истории
+                        history.splice(index, 1);
+                        
+                        // Удаляем статистику
+                        if (stats.links[linkId]) {
+                            delete stats.links[linkId];
+                        }
+                        
+                        localStorage.setItem('shortenHistory', JSON.stringify(history));
+                        localStorage.setItem('linkStats', JSON.stringify(stats));
+                        renderHistory();
+                    }, 300);
                 });
             });
-        }
-        
-        // Показать статистику для конкретной ссылки
-        function showLinkStats(linkId) {
-            const linkData = history.find(item => item.id === linkId);
-            const linkStats = stats.links[linkId] || { clicks: 0 };
-            
-            if (!linkData) return;
-            
-            alert(`Статистика для ссылки:\n\nОригинальная: ${linkData.original}\nСокращенная: ${linkData.short}\n\nПереходов: ${linkStats.clicks || 0}`);
         }
         
         renderHistory();
@@ -997,7 +930,7 @@
         }
     
         setTimeout(() => {
-            document.querySelectorAll('.feature-card, .stats').forEach((el, index) => {
+            document.querySelectorAll('.feature-card').forEach((el, index) => {
                 el.style.animation = `fadeIn 0.5s ease ${index * 0.2}s forwards`;
                 el.style.opacity = 0;
             });
@@ -1022,8 +955,6 @@
                 }
                 
                 stats.links[linkId].clicks++;
-                stats.totalClicks++;
-                stats.uniqueVisitors[visitorId] = true;
                 
                 localStorage.setItem('linkStats', JSON.stringify(stats));
                 
@@ -1033,6 +964,30 @@
         }
         
         handleRedirect();
+        
+        // Темная тема
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Обновляем иконку
+            const themeIcon = themeToggle.querySelector('i');
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Меняем иконку
+            const themeIcon = themeToggle.querySelector('i');
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+        
+        initTheme();
     });
     </script>
 </body>
