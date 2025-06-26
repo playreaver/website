@@ -695,52 +695,59 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const BITLY_TOKEN = "4db1a778c81bcd8aa7a9cfc01113f0278c519f30";
+    
             const shortenBtn = document.getElementById('shorten-btn');
             const urlInput = document.getElementById('url-input');
             const resultContainer = document.getElementById('result-container');
             const shortUrlInput = document.getElementById('short-url');
             const copyBtn = document.getElementById('copy-btn');
             const historyList = document.getElementById('history-list');
-            
+    
             // Загрузка истории из localStorage
             let history = JSON.parse(localStorage.getItem('shortenHistory')) || [];
             renderHistory();
-            
-            // Обработка сокращения ссылки с использованием API
+    
+            // Обработка сокращения ссылки с использованием Bitly API
             shortenBtn.addEventListener('click', async function() {
                 const originalUrl = urlInput.value.trim();
-                
+    
                 // Валидация URL
                 if (!isValidUrl(originalUrl)) {
                     showError(urlInput, "Пожалуйста, введите корректный URL");
                     return;
                 }
-                
+    
                 // Анимация загрузки
                 shortenBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Обработка...';
                 shortenBtn.disabled = true;
-                
+    
                 try {
-                    // Вызов API для сокращения ссылки через cleanuri.com
-                    const response = await fetch("https://cleanuri.com/api/v1/shorten", {
+                    const response = await fetch("https://api-ssl.bitly.com/v4/shorten", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
+                            "Authorization": `Bearer ${BITLY_TOKEN}`,
+                            "Content-Type": "application/json"
                         },
-                        body: `url=${encodeURIComponent(originalUrl)}`
+                        body: JSON.stringify({ long_url: originalUrl })
                     });
+    
+                    if (!response.ok) {
+                        throw new Error(`Ошибка Bitly: ${response.status}`);
+                    }
+    
                     const data = await response.json();
-                
-                    if (data.result_url) {
-                        const shortUrl = data.result_url;
-                
+    
+                    if (data.link) {
+                        const shortUrl = data.link;
+    
                         // Отображение результата
                         shortUrlInput.value = shortUrl;
                         resultContainer.classList.add('active');
-                
+    
                         // Сохраняем в историю
                         addToHistory(originalUrl, shortUrl);
-                
+    
                         // Прокрутка к результату
                         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else {
@@ -754,16 +761,15 @@
                     shortenBtn.disabled = false;
                 }
             });
-            
+    
             // Копирование ссылки
             copyBtn.addEventListener('click', function() {
                 shortUrlInput.select();
                 document.execCommand('copy');
-                
+    
                 copyBtn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
                 copyBtn.classList.add('copied');
-                
-                // Анимация успешного копирования
+    
                 copyBtn.animate([
                     { transform: 'scale(1)' },
                     { transform: 'scale(1.1)' },
@@ -772,13 +778,13 @@
                     duration: 300,
                     iterations: 1
                 });
-                
+    
                 setTimeout(() => {
                     copyBtn.innerHTML = '<i class="fas fa-copy"></i> Копировать';
                     copyBtn.classList.remove('copied');
                 }, 2000);
             });
-            
+    
             // Функция валидации URL
             function isValidUrl(url) {
                 try {
@@ -788,13 +794,12 @@
                     return false;
                 }
             }
-            
+    
             // Показать ошибку
             function showError(input, message) {
                 input.classList.add('error');
                 input.placeholder = message;
-                
-                // Анимация ошибки
+    
                 input.animate([
                     { transform: 'translateX(0)' },
                     { transform: 'translateX(-5px)' },
@@ -804,40 +809,36 @@
                     duration: 300,
                     iterations: 1
                 });
-                
+    
                 setTimeout(() => {
                     input.classList.remove('error');
                     input.placeholder = "Введите ссылку для сокращения...";
                 }, 3000);
             }
-            
+    
             // Добавить в историю
             function addToHistory(original, short) {
-                // Сохраняем только последние 10 записей
                 history.unshift({ original, short, timestamp: new Date() });
                 if (history.length > 10) history.pop();
-                
-                // Сохраняем в localStorage
+    
                 localStorage.setItem('shortenHistory', JSON.stringify(history));
-                
-                // Обновляем отображение
                 renderHistory();
             }
-            
+    
             // Отрисовать историю
             function renderHistory() {
                 if (history.length === 0) {
                     historyList.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 20px;">История сокращений пуста</p>';
                     return;
                 }
-                
+    
                 historyList.innerHTML = '';
                 history.forEach(item => {
                     const historyItem = document.createElement('div');
                     historyItem.className = 'history-item';
-                    
+    
                     const date = new Date(item.timestamp).toLocaleTimeString();
-                    
+    
                     historyItem.innerHTML = `
                         <div class="history-original" title="${item.original}">${truncateText(item.original, 50)}</div>
                         <div class="history-short">${item.short}</div>
@@ -850,17 +851,15 @@
                             </button>
                         </div>
                     `;
-                    
+    
                     historyList.appendChild(historyItem);
                 });
-                
-                // Добавляем обработчики для кнопок истории
+    
                 document.querySelectorAll('.copy-history').forEach(button => {
                     button.addEventListener('click', function() {
                         const url = this.getAttribute('data-url');
                         navigator.clipboard.writeText(url);
-                        
-                        // Анимация копирования
+    
                         const icon = this.querySelector('i');
                         icon.className = 'fas fa-check';
                         setTimeout(() => {
@@ -868,7 +867,7 @@
                         }, 2000);
                     });
                 });
-                
+    
                 document.querySelectorAll('.delete-history').forEach((button, index) => {
                     button.addEventListener('click', function() {
                         history.splice(index, 1);
@@ -877,13 +876,11 @@
                     });
                 });
             }
-            
-            // Усечение длинного текста
+    
             function truncateText(text, maxLength) {
                 return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
             }
-            
-            // Анимация элементов при загрузке
+    
             setTimeout(() => {
                 document.querySelectorAll('.feature-card, .stats').forEach((el, index) => {
                     el.style.animation = `fadeIn 0.5s ease ${index * 0.2}s forwards`;
@@ -892,6 +889,7 @@
             }, 500);
         });
     </script>
+
 
 </body>
 </html>
