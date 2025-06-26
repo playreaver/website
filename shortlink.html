@@ -593,6 +593,44 @@
                 padding: 30px 20px;
             }
         }
+
+        .studio-btn-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .studio-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .studio-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.4);
+        }
+        
+        .studio-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .studio-btn i {
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -688,19 +726,19 @@
         <section class="history" id="history">
             <h2><i class="fas fa-history"></i> История сокращений</h2>
             <div class="history-list" id="history-list">
-                <!-- История будет заполняться динамически -->
+
             </div>
         </section>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <div class="studio-btn-container">
+            <a href="https://playreaver.is-a.dev/" class="studio-btn" target="_blank">
+                <i class="fas fa-external-link-alt"></i>
+                Сайт студии
+            </a>
         </div>
-        <p>&copy; 2025 Reaver.Entertainment | Все права защищены.</p>
+        <p>&copy; 2025 Reaver.ShortLink | Все права защищены.</p>
     </footer>
 
     <script>
@@ -712,51 +750,41 @@
         const copyBtn = document.getElementById('copy-btn');
         const historyList = document.getElementById('history-list');
         const themeToggle = document.querySelector('.theme-toggle');
-        
-        // ИНИЦИАЛИЗАЦИЯ ТЕМЫ ПРИ ЗАГРУЗКЕ
+
         function initTheme() {
             try {
-                // Проверяем сохраненную тему
                 const savedTheme = localStorage.getItem('theme') || 'light';
                 document.documentElement.setAttribute('data-theme', savedTheme);
                 
-                // Обновляем иконку
                 const themeIcon = themeToggle.querySelector('i');
                 themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             } catch (e) {
                 console.error('Ошибка при загрузке темы:', e);
             }
         }
-        
-        // ВЫЗЫВАЕМ ИНИЦИАЛИЗАЦИЮ СРАЗУ
+       
         initTheme();
         
-        // ОБРАБОТЧИК ПЕРЕКЛЮЧЕНИЯ ТЕМЫ
         themeToggle.addEventListener('click', function() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            // Устанавливаем новую тему
+
             document.documentElement.setAttribute('data-theme', newTheme);
-            
-            // Сохраняем в localStorage
+
             try {
                 localStorage.setItem('theme', newTheme);
             } catch (e) {
                 console.error('Ошибка при сохранении темы:', e);
             }
-            
-            // Обновляем иконку
+
             const themeIcon = themeToggle.querySelector('i');
             themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         });
 
-        // Генерация уникальных ID для ссылок
         function generateShortId() {
             return Math.random().toString(36).substring(2, 10);
         }
-        
-        // Генерация уникального ID посетителя
+
         function getVisitorId() {
             let visitorId = localStorage.getItem('shortlink_visitor_id');
             if (!visitorId) {
@@ -766,11 +794,9 @@
             return visitorId;
         }
 
-        // Загрузка истории из localStorage
         let history = JSON.parse(localStorage.getItem('shortenHistory')) || [];
         let stats = JSON.parse(localStorage.getItem('linkStats')) || { links: {} };
         
-        // Рендеринг истории
         function renderHistory() {
             if (history.length === 0) {
                 historyList.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 20px;">История сокращений пуста</p>';
@@ -782,7 +808,6 @@
                 const historyItem = document.createElement('div');
                 historyItem.className = 'history-item';
                 
-                // Получаем статистику для этой ссылки
                 const linkStats = stats.links[item.id] || { clicks: 0 };
                 
                 historyItem.innerHTML = `
@@ -822,16 +847,13 @@
                 button.addEventListener('click', function() {
                     const index = +this.getAttribute('data-index');
                     const linkId = history[index].id;
-                    
-                    // Анимация удаления
+
                     const historyItem = this.closest('.history-item');
                     historyItem.style.animation = 'fadeOut 0.3s ease forwards';
                     
                     setTimeout(() => {
-                        // Удаляем из истории
                         history.splice(index, 1);
                         
-                        // Удаляем статистику
                         if (stats.links[linkId]) {
                             delete stats.links[linkId];
                         }
@@ -858,13 +880,10 @@
             shortenBtn.disabled = true;
     
             try {
-                // Генерируем уникальный ID для ссылки
                 const linkId = generateShortId();
                 
-                // Формируем сокращенную ссылку с системой отслеживания
                 const trackingUrl = `${window.location.origin}${window.location.pathname}?redirect=${encodeURIComponent(originalUrl)}&id=${linkId}`;
                 
-                // Запрос к is.gd API (GET)
                 const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(trackingUrl)}`;
                 const response = await fetch(apiUrl);
                 const data = await response.json();
@@ -875,7 +894,6 @@
                     shortUrlInput.value = shortUrl;
                     resultContainer.classList.add('active');
     
-                    // Сохраняем в историю
                     const historyItem = {
                         id: linkId,
                         original: originalUrl,
@@ -885,8 +903,7 @@
                     
                     history.unshift(historyItem);
                     if (history.length > 10) history.pop();
-                    
-                    // Инициализируем статистику
+        
                     if (!stats.links[linkId]) {
                         stats.links[linkId] = {
                             clicks: 0,
@@ -973,14 +990,12 @@
             });
         }, 500);
         
-        // Обработка редиректа по сокращенной ссылке
         function handleRedirect() {
             const urlParams = new URLSearchParams(window.location.search);
             const redirectUrl = urlParams.get('redirect');
             const linkId = urlParams.get('id');
             
-            if (redirectUrl && linkId) {
-                // Регистрируем переход
+            if (redirectUrl && linkId) 
                 const visitorId = getVisitorId();
                 
                 if (!stats.links[linkId]) {
@@ -995,7 +1010,6 @@
                 
                 localStorage.setItem('linkStats', JSON.stringify(stats));
                 
-                // Перенаправляем на оригинальный URL
                 window.location.href = redirectUrl;
             }
         }
